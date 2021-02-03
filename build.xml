@@ -1,0 +1,43 @@
+<project name="ordinal-indicator" default="dist" basedir=".">
+    <description>Ordinal Indicator</description>
+
+    <property name="class.dir"     value="classes"/>
+    <property name="src.dir"       value="src"/>
+    <property name="dist.dir"      value="dist"/>
+
+    <property name="jar.filename" value="${ant.project.name}.jar"/>
+
+    <target name="compile" depends="clean">
+        <mkdir dir="${class.dir}"/>
+        <javac srcdir="src"
+               destdir="${class.dir}"
+               includeantruntime="false">
+            <compilerarg value="-Xlint:unchecked"/>
+            <compilerarg value="-Xlint:deprecation"/>
+            <compilerarg value="-Xdiags:verbose"/>
+            <compilerarg line="-Xmaxerrs 1024"/>
+            <compilerarg line="-Xmaxwarns 1024"/>
+        </javac>
+    </target>
+
+    <target name="dist" depends="compile">
+        <mkdir dir="${dist.dir}"/>
+        <exec executable="git" outputproperty="system.version" failifexecutionfails="false" errorproperty="">
+            <arg value="describe"/>
+            <arg value="--tags"/>
+            <arg value="--always"/>
+            <arg value="HEAD"/>
+        </exec>
+        <jar destfile="${dist.dir}/${jar.filename}">
+            <manifest>
+                <attribute name="Version" value="${system.version}"/>
+            </manifest>
+            <fileset dir="${class.dir}"/>
+        </jar>
+    </target>
+
+    <target name="clean">
+        <delete dir="${dist.dir}"/>
+        <delete dir="${class.dir}"/>
+    </target>
+</project>
