@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -13,9 +14,24 @@ public final class OrdinalIndicator {
      * Simple entry point that creates a {@code Date} and represents it as a {@code String} together with an ordinal suffix.
      */
     public static void main(String... args) {
-        var date = new Date();
-        var dateWithOrdinal = getFormattedDate(date);
-        System.out.println(dateWithOrdinal);
+        // For dates. Commenting out to test ordinals from resources.
+        // We need a better testing workflow
+        // var date = new Date();
+        // var dateWithOrdinal = getFormattedDate(date);
+        // System.out.println(dateWithOrdinal);
+
+        // Show ordinals using resource files
+        try {
+            var englishOrdinals = ResourceReader.readAllLinesInResourceFile("resources/en.txt");
+            // Represent 1 (one) in short ordinal format
+            var line = englishOrdinals.get(1);
+            var shortOrdinal = line.substring(2, 4);
+            System.out.println(shortOrdinal);
+        } catch (IOException e) {
+            System.err.println("Failed to find required file: " + e.getMessage());
+            e.printStackTrace();
+        }
+
     }
 
     /**
