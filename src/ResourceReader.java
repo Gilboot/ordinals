@@ -1,5 +1,4 @@
 import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -13,16 +12,17 @@ public final class ResourceReader {
      *
      * @param resourceName resource file name.
      *
-     * @return the Path object representing the file path
+     * @return the {@code Path} object representing the file path.
      *
+     * @throws NullPointerException if no resource can be found corresponding to {@code resourceName}.
      * @throws URISyntaxException if the resource file called {@code resourceName}.
      *
      * @see https://stackoverflow.com/a/59256704/10030693
      * @see https://stackoverflow.com/a/43973911/10030693
      */
     private static Path getFilePath(final String resourceName) throws URISyntaxException {
-        URI uri = Objects.requireNonNull(ClassLoader.getSystemResource(resourceName).toURI());
-        String resourcePath = Paths.get(uri).toString();
+        var uri = Objects.requireNonNull(ClassLoader.getSystemResource(resourceName).toURI());
+        var resourcePath = Paths.get(uri).toString();
         return Paths.get(resourcePath);
     }
 
@@ -40,7 +40,7 @@ public final class ResourceReader {
      */
     static List<String> readAllLinesInResourceFile(final String resourceName) throws IOException {
         try {
-            Path resourcePath = getFilePath(resourceName);
+            var resourcePath = getFilePath(resourceName);
             return Files.readAllLines(resourcePath);
         } catch (URISyntaxException uriSyntaxException) {
             throw new IOException("Failed to process uri from resource name");
