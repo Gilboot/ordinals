@@ -16,7 +16,6 @@ public final class ResourceReader {
      * @throws NullPointerException if {@code resourceName} is {@code null}.
      */
     static List<String> readAllLinesInResourceFile(final String resourceName) throws IOException {
-        System.err.println("resourceName: " + resourceName);
         try (var reader = new BufferedReader(new InputStreamReader(ResourceReader.class.getResourceAsStream(resourceName)))) {
             final List<String> lines = new ArrayList<>();
             String line;
@@ -24,9 +23,6 @@ public final class ResourceReader {
                 lines.add(line);
             }
             return lines;
-        } catch (IOException e) {
-            System.err.println("ioe resourceName: " + resourceName);
-            throw e;
         }
     }
 }
