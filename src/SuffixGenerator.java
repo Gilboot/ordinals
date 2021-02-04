@@ -5,11 +5,11 @@ public final class SuffixGenerator {
     /**
      * Get the ordinal suffix for the day of the month.
      *
-     * @param dayOfTheMonth the  day of the month
-     *
-     * @see https://stackoverflow.com/a/4011232/10030693
+     * @param dayOfTheMonth the day of the month.
      *
      * @throws IllegalArgumentException if the value of {@code dayOfTheMonth} is not a valid day of a month.
+     *
+     * @see https://stackoverflow.com/a/4011232/10030693
      */
     public static String getDayOfMonthSuffix(final int dayOfTheMonth) {
         if (dayOfTheMonth < 1 || dayOfTheMonth > 31) {
@@ -29,7 +29,9 @@ public final class SuffixGenerator {
     }
 
     /**
-     * Get day of month suffix from a {@code Date}.
+     * Produces the day of month suffix from a {@code Date}.
+     *
+     * @param date The {@code Date} of which the day of the month suffix is produced.
      *
      * @return suffix representing day of month.
      */
