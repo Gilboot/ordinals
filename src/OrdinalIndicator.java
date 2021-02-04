@@ -22,7 +22,7 @@ public final class OrdinalIndicator {
 
         // Show ordinals using resource files
         try {
-            var englishOrdinals = ResourceReader.readAllLinesInResourceFile("resources/en.txt");
+            var englishOrdinals = ResourceReader.readAllLinesInResourceFile("ordinal-resources/ordinals-en.txt");
             // Represent 1 (one) in short ordinal format
             var line = englishOrdinals.get(1);
             var shortOrdinal = line.substring(2, 4);
@@ -31,7 +31,6 @@ public final class OrdinalIndicator {
             System.err.println("Failed to find required file: " + e.getMessage());
             e.printStackTrace();
         }
-
     }
 
     /**
