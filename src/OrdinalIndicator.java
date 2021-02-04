@@ -13,7 +13,7 @@ public final class OrdinalIndicator {
     /**
      * Simple entry point that creates a {@code Date} and represents it as a {@code String} together with an ordinal suffix.
      */
-    public static void main(String... args) {
+    public static void main(final String... args) {
         // For dates. Commenting out to test ordinals from resources.
         // We need a better testing workflow
         // var date = new Date();
@@ -41,7 +41,7 @@ public final class OrdinalIndicator {
      *
      * @return the date formatted.
      */
-    public static String getFormattedDate(Date date) {
+    public static String getFormattedDate(final Date date) {
         var dayNumberSuffix = SuffixGenerator.getDayOfMonthSuffix(date);
         var dateFormat = new SimpleDateFormat(String.format("E',' dd'%1s' MMM yyyy 'at' hh:mm a", dayNumberSuffix), Locale.US);
         return dateFormat.format(date);
