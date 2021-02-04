@@ -17,7 +17,7 @@ public final class OrdinalIndicator {
      */
     public static void main(final String... args) {
         try {
-            var osf = new OrdinalSuffixFactory(Locale.US);
+            var osf = OrdinalSuffixFactory.getInstance(Locale.US);
             Stream.of(IntStream.range(1, 10),
                       IntStream.range(18, 24),
                       IntStream.range(28, 34))
@@ -25,7 +25,7 @@ public final class OrdinalIndicator {
                         System.out.println("with suffix: " + osf.getOrdinalWithSuffix(i));
                         System.out.println("full name: " + osf.getOrdinalFullName(i));
                     });
-        } catch (IOException e) {
+        } catch (Exception e) {
             System.err.println("Failed to find required file: " + e.getMessage());
             e.printStackTrace();
         }
