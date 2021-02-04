@@ -1,5 +1,0 @@
-1;st;first
-2;nd;second
-3;rd;third
-4;th;-th
-

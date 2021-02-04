@@ -1,49 +1,29 @@
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public final class ResourceReader {
     /**
-     * Produces the path of a resource file.
+     * Produces a list of lines in a resource file.
      *
-     * @param resourceName resource file name.
+     * @param resourceName the name of the resource file whose contents to get.
      *
-     * @return the {@code Path} object representing the file path.
-     *
-     * @throws NullPointerException if no resource can be found corresponding to {@code resourceName}.
-     * @throws URISyntaxException if the resource file called {@code resourceName}.
-     *
-     * @see https://stackoverflow.com/a/59256704/10030693
-     * @see https://stackoverflow.com/a/43973911/10030693
-     */
-    private static Path getFilePath(final String resourceName) throws URISyntaxException {
-        var uri = Objects.requireNonNull(ClassLoader.getSystemResource(resourceName).toURI());
-        var resourcePath = Paths.get(uri).toString();
-        return Paths.get(resourcePath);
-    }
-
-    /**
-     * Get a list of all the lines in a resource file
-     *
-     * @param resourceName the  name of the resource file whose contents to get
-     *
-     * @return a list of the lines in the resource file
+     * @return a list of the lines in the resource file.
      *
      * @throws IOException if the resource file called {@code resourceName} does not exist or cannot be accessed.
-     *
-     * @see https://stackoverflow.com/a/58230499/10030693
-     * @see https://stackoverflow.com/a/59256704/10030693
+     * @throws NullPointerException if {@code resourceName} is {@code null}.
      */
     static List<String> readAllLinesInResourceFile(final String resourceName) throws IOException {
-        try {
-            var resourcePath = getFilePath(resourceName);
-            return Files.readAllLines(resourcePath);
-        } catch (URISyntaxException uriSyntaxException) {
-            throw new IOException("Failed to process uri from resource name");
+        try (var reader = new BufferedReader(new InputStreamReader(ResourceReader.class.getResourceAsStream(resourceName)))) {
+            final List<String> lines = new ArrayList<>();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                lines.add(line);
+            }
+            return lines;
         }
     }
 }
