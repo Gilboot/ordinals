@@ -7,7 +7,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
 
-public class ResourceReader {
+public final class ResourceReader {
     /**
      * Get the path to a resource file
      *
@@ -21,7 +21,7 @@ public class ResourceReader {
      *
      * @return the Path object representing the file path
      */
-    private static Path getFilePath(String resourceName) throws URISyntaxException {
+    private static Path getFilePath(final String resourceName) throws URISyntaxException {
         URI uri = Objects.requireNonNull(ClassLoader.getSystemResource(resourceName).toURI());
         String resourcePath = Paths.get(uri).toString();
         return Paths.get(resourcePath);
@@ -40,7 +40,7 @@ public class ResourceReader {
      *
      * @return a list of the lines in the resource file
      */
-    static List<String> readAllLinesInResourceFile(String resourceName) throws IOException {
+    static List<String> readAllLinesInResourceFile(final String resourceName) throws IOException {
         try {
             Path resourcePath = getFilePath(resourceName);
             return Files.readAllLines(resourcePath);
