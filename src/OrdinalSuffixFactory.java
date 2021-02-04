@@ -77,11 +77,11 @@ public final class OrdinalSuffixFactory {
             this.congruent = congruent;
         }
 
-        boolean matches(final int i) {
+        @Override boolean matches(final int i) {
             return congruent == i % 10;
         }
 
-        String ruleToString() {
+        @Override String ruleToString() {
             return "congruent to " + congruent + " modulo 10";
         }
     }
@@ -94,11 +94,11 @@ public final class OrdinalSuffixFactory {
             this.ordinal = ordinal;
         }
 
-        boolean matches(final int i) {
+        @Override boolean matches(final int i) {
             return ordinal == i;
         }
 
-        String ruleToString() {
+        @Override String ruleToString() {
             return "equals to " + ordinal;
         }
     }
