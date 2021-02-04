@@ -2,6 +2,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 /**
  * Represents a date with an ordinal indicator.
@@ -14,19 +16,15 @@ public final class OrdinalIndicator {
      * Simple entry point that creates a {@code Date} and represents it as a {@code String} together with an ordinal suffix.
      */
     public static void main(final String... args) {
-        // For dates. Commenting out to test ordinals from resources.
-        // We need a better testing workflow
-        // var date = new Date();
-        // var dateWithOrdinal = getFormattedDate(date);
-        // System.out.println(dateWithOrdinal);
-
-        // Show ordinals using resource files
         try {
-            var englishOrdinals = ResourceReader.readAllLinesInResourceFile("ordinal-resources/ordinals-en.txt");
-            // Represent 1 (one) in short ordinal format
-            var line = englishOrdinals.get(1);
-            var shortOrdinal = line.substring(2, 4);
-            System.out.println(shortOrdinal);
+            var osf = new OrdinalSuffixFactory(Locale.US);
+            Stream.of(IntStream.range(1, 10),
+                      IntStream.range(18, 24),
+                      IntStream.range(28, 34))
+                .flatMapToInt(i -> i).forEach(i -> {
+                        System.out.println("with suffix: " + osf.getOrdinalWithSuffix(i));
+                        System.out.println("full name: " + osf.getOrdinalFullName(i));
+                    });
         } catch (IOException e) {
             System.err.println("Failed to find required file: " + e.getMessage());
             e.printStackTrace();
@@ -41,7 +39,7 @@ public final class OrdinalIndicator {
      * @return the date formatted.
      */
     public static String getFormattedDate(final Date date) {
-        var dayNumberSuffix = SuffixGenerator.getDayOfMonthSuffix(date);
+        var dayNumberSuffix = OrdinalSuffixFactory.getDayOfMonthSuffix(date);
         var dateFormat = new SimpleDateFormat(String.format("E',' dd'%1s' MMM yyyy 'at' hh:mm a", dayNumberSuffix), Locale.US);
         return dateFormat.format(date);
     }
