@@ -48,6 +48,4 @@ public final class ResourceReader {
             throw new IOException("Failed to process uri from resource name");
         }
     }
-
-
 }
