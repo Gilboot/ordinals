@@ -4,22 +4,29 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public final class OrdinalSuffixFactory {
     public enum Gender { NEUTRAL, MALE, FEMALE };
 
-    private final Locale locale;
+    private static final ConcurrentMap<Locale, OrdinalSuffixFactory> factories = new ConcurrentHashMap<>();
+
     private final List<Rule> rules = new CopyOnWriteArrayList<>();
 
-    public OrdinalSuffixFactory(final Locale locale) throws IOException {
-        if (locale == null) {
-            throw new NullPointerException("locale: null");
+    public static OrdinalSuffixFactory getInstance(final Locale locale) {
+        return factories.computeIfAbsent(locale, OrdinalSuffixFactory::new);
+    }
+
+    private OrdinalSuffixFactory(final Locale locale) {
+        try {
+            var resourceName = "ordinal-resources/ordinals-" + locale + ".txt";
+            var source = ResourceReader.readAllLinesInResourceFile(resourceName);
+            compile(source);
+        } catch (IOException ioe) {
+            throw new RuntimeException(ioe);
         }
-        this.locale = locale;
-        var resourceName = "ordinal-resources/ordinals-" + locale + ".txt";
-        var source = ResourceReader.readAllLinesInResourceFile(resourceName);
-        compile(source);
     }
 
     private Gender getGenderOf(final String g) {
