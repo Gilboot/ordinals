@@ -1,6 +1,7 @@
 package com.github.ordinals;
 
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -19,7 +20,7 @@ public final class Ordinals {
      */
     public static void main(final String... args) {
         try {
-            var osf = OrdinalsFactory.getInstance(Locale.US);
+            final OrdinalsFactory osf = OrdinalsFactory.getInstance(Locale.US);
             Stream.of(IntStream.range(1, 10),
                       IntStream.range(18, 24),
                       IntStream.range(28, 34))
@@ -27,7 +28,7 @@ public final class Ordinals {
                         System.out.println("with suffix: " + osf.getOrdinalWithSuffix(i));
                         System.out.println("full name: " + osf.getOrdinalFullName(i));
                     });
-        } catch (Exception e) {
+        } catch (final Exception e) {
             System.err.println("Failed to find required file: " + e.getMessage());
             e.printStackTrace();
         }
@@ -41,8 +42,8 @@ public final class Ordinals {
      * @return the date formatted.
      */
     public static String getFormattedDate(final Date date) {
-        var dayNumberSuffix = OrdinalsFactory.getDayOfMonthSuffix(date);
-        var dateFormat = new SimpleDateFormat(String.format("E',' dd'%1s' MMM yyyy 'at' hh:mm a", dayNumberSuffix), Locale.US);
+        final String dayNumberSuffix = OrdinalsFactory.getDayOfMonthSuffix(date);
+        final DateFormat dateFormat = new SimpleDateFormat(String.format("E',' dd'%1s' MMM yyyy 'at' hh:mm a", dayNumberSuffix), Locale.US);
         return dateFormat.format(date);
     }
 }

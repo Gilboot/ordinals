@@ -18,9 +18,9 @@ public final class ResourceReader {
      * @throws NullPointerException if {@code resourceName} is {@code null}.
      */
     static List<String> readAllLinesInResourceFile(final String resourceName) {
-        try (var reader = new BufferedReader(new InputStreamReader(ResourceReader.class.getResourceAsStream(resourceName)))) {
+        try (final BufferedReader reader = new BufferedReader(new InputStreamReader(ResourceReader.class.getResourceAsStream(resourceName)))) {
             return reader.lines().collect(Collectors.toList());
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new OrdinalsException("could not find resource \"" + resourceName + "\" in " + ResourceReader.class, e);
         }
     }

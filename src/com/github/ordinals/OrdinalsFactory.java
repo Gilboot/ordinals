@@ -22,8 +22,8 @@ public final class OrdinalsFactory {
     }
 
     private OrdinalsFactory(final Locale locale) {
-        var resourceName = "ordinals-" + locale + ".txt";
-        var source = ResourceReader.readAllLinesInResourceFile(resourceName);
+        final String resourceName = "ordinals-" + locale + ".txt";
+        final List<String> source = ResourceReader.readAllLinesInResourceFile(resourceName);
         compile(source);
     }
 
@@ -39,14 +39,14 @@ public final class OrdinalsFactory {
     private void compile(final List<String> source) {
         final AtomicInteger lineNo = new AtomicInteger(1);
         source.stream().forEach(l -> {
-                var components = l.split(";");
+                final String[] components = l.split(";");
                 if (components.length != 4) {
                     throw new RuntimeException("parse error:" + lineNo.get() + ": " + l);
                 }
-                var rule     = components[0];
-                var suffix   = components[1];
-                var fullName = components[2];
-                var gender   = components[3];
+                final String rule     = components[0];
+                final String suffix   = components[1];
+                final String fullName = components[2];
+                final String gender   = components[3];
                 rules.add(rule.startsWith("%")
                           ? new ModuloRule(Integer.parseInt(rule.substring(1)), suffix, fullName, getGenderOf(gender))
                           : new ExactRule(Integer.parseInt(rule), suffix, fullName, getGenderOf(gender)));
@@ -69,7 +69,7 @@ public final class OrdinalsFactory {
 
         abstract String ruleToString();
 
-        @Override public String toString() {
+        @Override public final String toString() {
             return "[rule: " + ruleToString() + ", suffix: " + suffix + ", fullName: " + fullName + ", gender: " + gender + "]";
         }
     }
@@ -173,7 +173,7 @@ public final class OrdinalsFactory {
             throw new NullPointerException("null: date");
         }
 
-        var cal = Calendar.getInstance();
+        final Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         return cal.get(Calendar.DAY_OF_MONTH);
     }
