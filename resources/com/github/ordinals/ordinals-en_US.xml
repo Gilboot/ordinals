@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rules locale="en">
+    <rule precedence="1"   type="exact" value="0"  fullname="zeroeth"     suffix="th" plural="zeroeths"/>
+    <rule precedence="110" type="exact" value="11" fullname="eleventh"    suffix="th" plural="elevenths"/>
+    <rule precedence="120" type="exact" value="12" fullname="twelfth"     suffix="th" plural="twelfths"/>
+    <rule precedence="130" type="exact" value="13" fullname="thirteenth"  suffix="th" plural="thirteenths"/>
+    <rule precedence="140" type="exact" value="14" fullname="fourteenth"  suffix="th" plural="fourteenths"/>
+    <rule precedence="150" type="exact" value="15" fullname="fifteenth"   suffix="th" plural="fifteenths"/>
+    <rule precedence="160" type="exact" value="16" fullname="sixteenth"   suffix="th" plural="sixteenths"/>
+    <rule precedence="170" type="exact" value="17" fullname="seventeenth" suffix="th" plural="seventeenths"/>
+    <rule precedence="180" type="exact" value="18" fullname="eighteenth"  suffix="th" plural="eighteenths"/>
+    <rule precedence="190" type="exact" value="19" fullname="nineteenth"  suffix="th" plural="nineteenths"/>
+    <rule precedence="210" type="modulo" remainder="1" modulus="10" fullname="first"   suffix="st" plural="firsts"/>
+    <rule precedence="220" type="modulo" remainder="2" modulus="10" fullname="second"  suffix="nd" plural="seconds"/>
+    <rule precedence="230" type="modulo" remainder="3" modulus="10" fullname="third"   suffix="rd" plural="thirds"/>
+    <rule precedence="240" type="modulo" remainder="4" modulus="10" fullname="fourth"  suffix="th" plural="fourths"/>
+    <rule precedence="250" type="modulo" remainder="5" modulus="10" fullname="fifth"   suffix="th" plural="fifths"/>
+    <rule precedence="260" type="modulo" remainder="6" modulus="10" fullname="sixth"   suffix="th" plural="sixths"/>
+    <rule precedence="270" type="modulo" remainder="7" modulus="10" fullname="seventh" suffix="th" plural="sevenths"/>
+    <rule precedence="280" type="modulo" remainder="8" modulus="10" fullname="eighth"  suffix="th" plural="eighths"/>
+    <rule precedence="290" type="modulo" remainder="9" modulus="10" fullname="ninth"   suffix="th" plural="ninths"/>
+</rules>

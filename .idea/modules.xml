@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ordinal-indicator.iml" filepath="$PROJECT_DIR$/ordinal-indicator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ordinals.iml" filepath="$PROJECT_DIR$/ordinals.iml" />
     </modules>
   </component>
 </project>
