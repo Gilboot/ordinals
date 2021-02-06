@@ -1,10 +1,12 @@
 # Default ignored files
 /shelf/
-/workspace.xml
+/.idea/workspace.xml
 
 # https://github.com/github/gitignore/blob/master/Java.gitignore
 # Compiled class file
 *.class
+/classes
+
 
 # Log file
 *.log
