@@ -1,5 +1,5 @@
-<project name="ordinal-indicator" default="dist" basedir=".">
-    <description>Ordinal Indicator</description>
+<project name="ordinals" default="dist" basedir=".">
+    <description>Ordinals</description>
 
     <property name="class.dir"     value="classes"/>
     <property name="src.dir"       value="src"/>
