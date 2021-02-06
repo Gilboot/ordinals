@@ -92,7 +92,7 @@ public class XMLParser {
      */
     private static int getAttributeAsInteger(Element element, String attribute) {
         String attr = getAttribute(element, attribute);
-        if (attr.isBlank()) return 0;
+        if ("".equals(attr)) return 0;
         return Integer.parseInt(getAttribute(element, attribute));
     }
 }
