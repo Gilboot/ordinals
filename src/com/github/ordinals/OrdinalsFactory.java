@@ -1,39 +1,37 @@
+package com.github.ordinals;
+
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
-public final class OrdinalSuffixFactory {
-    public enum Gender { NEUTRAL, MALE, FEMALE };
+public final class OrdinalsFactory {
+    public enum Gender { NEUTRAL, MASCULINE, FEMININE };
 
-    private static final ConcurrentMap<Locale, OrdinalSuffixFactory> factories = new ConcurrentHashMap<>();
+    private static final ConcurrentMap<Locale, OrdinalsFactory> factories = new ConcurrentHashMap<>();
 
     private final List<Rule> rules = new CopyOnWriteArrayList<>();
 
-    public static OrdinalSuffixFactory getInstance(final Locale locale) {
-        return factories.computeIfAbsent(locale, OrdinalSuffixFactory::new);
+    public static OrdinalsFactory getInstance(final Locale locale) {
+        return factories.computeIfAbsent(locale, OrdinalsFactory::new);
     }
 
-    private OrdinalSuffixFactory(final Locale locale) {
-        try {
-            var resourceName = "ordinal-resources/ordinals-" + locale + ".txt";
-            var source = ResourceReader.readAllLinesInResourceFile(resourceName);
-            compile(source);
-        } catch (IOException ioe) {
-            throw new RuntimeException(ioe);
-        }
+    private OrdinalsFactory(final Locale locale) {
+        var resourceName = "ordinals-" + locale + ".txt";
+        var source = ResourceReader.readAllLinesInResourceFile(resourceName);
+        compile(source);
     }
 
     private Gender getGenderOf(final String g) {
         switch (g) {
             case "n": return Gender.NEUTRAL;
-            case "m": return Gender.MALE;
-            case "f": return Gender.FEMALE;
+            case "m": return Gender.MASCULINE;
+            case "f": return Gender.FEMININE;
             default: throw new RuntimeException("unexpected gender: " + g);
         }
     }
