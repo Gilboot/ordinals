@@ -1,74 +1,68 @@
 package com.github.ordinals;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
-
-import com.github.ordinals.data.RuleXML;
+import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Node;
 import org.w3c.dom.Element;
-
-import static com.github.ordinals.utils.Utils.getResourcePath;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import static com.github.ordinals.utils.Utils.*;
 
 /**
  * This class contains methods for parsing xml files into XMLRule objects
  */
-public class XMLParser {
-
+public final class XMLParser {
     /**
      * Looks up an xml file using the given locale and parses it into a list of XMLRules
      *
-     * @param locale
+     * @param inputStream An {@code InputStream} that accesses the ordinal rules encoded in XML.
      * @return a list of XMLRule objects
      * @see https://www.tutorialspoint.com/java_xml/java_dom_parse_document.htm
      */
-    public static List<RuleXML> getRules(Locale locale) {
-        List<RuleXML> rules = new ArrayList<>();
+    public static List<Rule> parse(final InputStream inputStream) {
+        final List<Rule> rules = new ArrayList<>();
         try {
-            File inputFile = new File(getResourcePath(locale));
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(inputFile);
+            final DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            final DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            final Document doc = dBuilder.parse(inputStream);
             doc.getDocumentElement().normalize();
-            NodeList nodeList = doc.getElementsByTagName("rule");
+            final NodeList nodeList = doc.getElementsByTagName("rule");
 
-            for (int nodePosition = 0; nodePosition < nodeList.getLength(); nodePosition++) {
-                int precedence;
-                String type;
-                int value;
-                String fullname;
-                int remainder;
-                int modulus;
-
-                Node ruleNode = nodeList.item(nodePosition);
+            for (int ruleIndex = 0; ruleIndex < nodeList.getLength(); ruleIndex++) {
+                final Node ruleNode = nodeList.item(ruleIndex);
                 if (ruleNode.getNodeType() == Node.ELEMENT_NODE) {
-                    Element ruleElement = (Element) ruleNode;
-                    precedence = getAttributeAsInteger(ruleElement, "precedence");
-                    type = getAttribute(ruleElement, "type");
-                    value = getAttributeAsInteger(ruleElement, "value");
-                    fullname = getAttribute(ruleElement, "fullname");
-                    remainder = getAttributeAsInteger(ruleElement, "remainder");
-                    modulus = getAttributeAsInteger(ruleElement, "modulus");
-                    RuleXML ruleXML = new RuleXML(
-                            precedence,
-                            type,
-                            value,
-                            fullname,
-                            modulus,
-                            remainder
-                    );
-                    rules.add(ruleXML);
+                    final Element ruleElement = Element.class.cast(ruleNode);
+
+                    final int    precedence      = getAttributeAsInteger(ruleElement, "precedence");
+                    final String type            = getAttribute         (ruleElement, "type");
+                    final int    value           = getAttributeAsInteger(ruleElement, "value");
+                    final String suffix          = getAttribute         (ruleElement, "suffix");
+                    final String fullName        = getAttribute         (ruleElement, "fullname");
+                    final String genderAttribute = getAttribute         (ruleElement, "gender");
+                    final int    remainder       = getAttributeAsInteger(ruleElement, "remainder");
+                    final int    modulus         = getAttributeAsInteger(ruleElement, "modulus");
+
+                    final Gender gender = "".equals(genderAttribute) ? Gender.NEUTRAL : Gender.getGenderOf(genderAttribute);
+                    switch (type) {
+                        case "exact":
+                            rules.add(new ExactRule(precedence, value, suffix, fullName, gender));
+                            break;
+                        case "modulo":
+                            rules.add(new ModuloRule(precedence, remainder, modulus, suffix, fullName, gender));
+                            break;
+                        default:
+                            throw new OrdinalsException("parse error: unrecognized type \"" + type + "\" for rule " + ruleIndex + ", precedence(" + precedence + ")");
+                    }
                 }
             }
-        } catch (Exception e) {
-            throw new OrdinalsException("Failed to parse XML using locale " + locale, e);
+        } catch (final Exception e) {
+            throw new OrdinalsException("XML parse error", e);
         }
-
         return rules;
     }
 
@@ -91,8 +85,7 @@ public class XMLParser {
      * @return 0 if the the attribute does not exist or an integer value of the attribute
      */
     private static int getAttributeAsInteger(Element element, String attribute) {
-        String attr = getAttribute(element, attribute);
-        if ("".equals(attr)) return 0;
-        return Integer.parseInt(getAttribute(element, attribute));
+        final String attr = getAttribute(element, attribute);
+        return ("".equals(attr)) ? 0 : Integer.parseInt(getAttribute(element, attribute));
     }
 }
