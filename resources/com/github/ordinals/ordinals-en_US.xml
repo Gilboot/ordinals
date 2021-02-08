@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rules locale="en">
+<rules locale="en_US">
     <rule precedence="1"   type="exact" value="0"  fullname="zeroeth"     suffix="th" plural="zeroeths"/>
     <rule precedence="110" type="exact" value="11" fullname="eleventh"    suffix="th" plural="elevenths"/>
     <rule precedence="120" type="exact" value="12" fullname="twelfth"     suffix="th" plural="twelfths"/>
@@ -10,6 +10,7 @@
     <rule precedence="170" type="exact" value="17" fullname="seventeenth" suffix="th" plural="seventeenths"/>
     <rule precedence="180" type="exact" value="18" fullname="eighteenth"  suffix="th" plural="eighteenths"/>
     <rule precedence="190" type="exact" value="19" fullname="nineteenth"  suffix="th" plural="nineteenths"/>
+
     <rule precedence="210" type="modulo" remainder="1" modulus="10" fullname="first"   suffix="st" plural="firsts"/>
     <rule precedence="220" type="modulo" remainder="2" modulus="10" fullname="second"  suffix="nd" plural="seconds"/>
     <rule precedence="230" type="modulo" remainder="3" modulus="10" fullname="third"   suffix="rd" plural="thirds"/>
@@ -19,4 +20,20 @@
     <rule precedence="270" type="modulo" remainder="7" modulus="10" fullname="seventh" suffix="th" plural="sevenths"/>
     <rule precedence="280" type="modulo" remainder="8" modulus="10" fullname="eighth"  suffix="th" plural="eighths"/>
     <rule precedence="290" type="modulo" remainder="9" modulus="10" fullname="ninth"   suffix="th" plural="ninths"/>
+
+    <!-- <rule precedence="1000" type="modulo" remainder="0" modulus="1000000000000" fullname="trillionth" suffix="th" plural="trillionths"/> -->
+    <rule precedence="1010" type="modulo" remainder="0" modulus="1000000000"    fullname="billionth"  suffix="th" plural="billionths"/>
+    <rule precedence="1020" type="modulo" remainder="0" modulus="1000000"       fullname="millionth"  suffix="th" plural="millionths"/>
+    <rule precedence="1030" type="modulo" remainder="0" modulus="1000"          fullname="thousanth"  suffix="th" plural="thousanths"/>
+    <rule precedence="1040" type="modulo" remainder="0" modulus="100"           fullname="hundreth"   suffix="th" plural="hundreths"/>
+
+    <rule precedence="2000" type="modulo" remainder="0" modulus="10" fullname="tenth"      suffix="th" plural="tenths"/>
+    <rule precedence="2010" type="modulo" remainder="0" modulus="20" fullname="twentieth"  suffix="th" plural="twentieths"/>
+    <rule precedence="2020" type="modulo" remainder="0" modulus="30" fullname="thirtieth"  suffix="th" plural="thirtieths"/>
+    <rule precedence="2030" type="modulo" remainder="0" modulus="40" fullname="fortieth"   suffix="th" plural="fortieths"/>
+    <rule precedence="2040" type="modulo" remainder="0" modulus="50" fullname="fiftieth"   suffix="th" plural="fiftieths"/>
+    <rule precedence="2050" type="modulo" remainder="0" modulus="60" fullname="sixtieth"   suffix="th" plural="sixtieths"/>
+    <rule precedence="2060" type="modulo" remainder="0" modulus="70" fullname="seventieth" suffix="th" plural="seventieths"/>
+    <rule precedence="2070" type="modulo" remainder="0" modulus="80" fullname="eightieth"  suffix="th" plural="eightieths"/>
+    <rule precedence="2080" type="modulo" remainder="0" modulus="90" fullname="ninetieth"  suffix="th" plural="ninetieths"/>
 </rules>
