@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rules locale="de" join="">
+    <rule precedence="1" type="exact" value="1" short="." full="erste" />
+    <rule precedence="1" type="exact" value="3" short="." full="dritte" />
+    <rule precedence="1" type="exact" value="7" short="." full="siebte" />
+    <rule precedence="1" type="inequality" short="." full="te" less="20" />
+    <rule precedence="1" type="inequality" short="." full="ste" more="19" />
+</rules>
