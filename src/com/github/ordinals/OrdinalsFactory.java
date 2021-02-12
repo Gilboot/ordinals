@@ -1,8 +1,8 @@
 package com.github.ordinals;
 
 import com.github.ordinals.utils.Utils;
-import java.io.IOException;
 import java.io.InputStream;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -11,6 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 public final class OrdinalsFactory {
     private static final ConcurrentMap<Locale, OrdinalsFactory> factories = new ConcurrentHashMap<>();
@@ -24,7 +25,7 @@ public final class OrdinalsFactory {
     private OrdinalsFactory(final Locale locale) {
         final String resourceName = Utils.getResourceName(locale);
         final InputStream source = ResourceReader.readResourceAsStream(resourceName);
-        rules.addAll(XMLParser.parse(source));
+        this.rules.addAll(XMLParser.parse(source).stream().sorted().collect(Collectors.toList()));
     }
 
     public String getOrdinalWithSuffix(final int i) {
