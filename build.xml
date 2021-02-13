@@ -31,8 +31,10 @@
             <arg value="--always"/>
             <arg value="HEAD"/>
         </exec>
+
         <jar destfile="${dist.dir}/${jar.filename}">
             <manifest>
+                <attribute name="TestXMLParser" value="com.github.ordinals.TestXMLParser"/>
                 <attribute name="Version" value="${system.version}"/>
             </manifest>
             <fileset dir="${class.dir}"/>

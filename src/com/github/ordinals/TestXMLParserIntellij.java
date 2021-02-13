@@ -15,11 +15,14 @@ public final class TestXMLParserIntellij {
     private static final Locale LOCALE = Locale.US;
 
     public static void main(final String[] args) {
-        final String resourceFile = ResourceReader.getResourcePath(LOCALE);
-        try (final InputStream source = new FileInputStream(new File(resourceFile))) {
-            XMLParser.parse(source).forEach(System.out::println);
-        } catch (final IOException e) {
-            throw new OrdinalsException("Could not access resource " + resourceFile, e);
-        }
+        XMLParser.parse(Locale.US).forEach(System.out::println);
+
+
+//        final String resourceFile = ResourceReader.getResourcePath(Locale.);
+//        try (final InputStream source = new FileInputStream(new File(resourceFile))) {
+//            XMLParser.parse(source).forEach(System.out::println);
+//        } catch (final IOException e) {
+//            throw new OrdinalsException("Could not access resource " + resourceFile, e);
+//        }
     }
 }

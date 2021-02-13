@@ -39,7 +39,7 @@ final class ResourceReader {
         if (locale == null) {
             throw new NullPointerException("locale: null");
         }
-        return RESOURCE_NAME_PREFIX + locale + RESOURCE_NAME_PREFIX;
+        return RESOURCE_NAME_PREFIX + locale + RESOURCE_NAME_SUFFIX;
     }
 
     /**
