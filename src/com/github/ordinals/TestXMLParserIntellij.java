@@ -1,8 +1,9 @@
 package com.github.ordinals;
 
-import com.github.ordinals.utils.Utils;
-
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Locale;
 
@@ -11,17 +12,14 @@ import java.util.Locale;
  * Simple class to test how xml parser is working
  */
 public final class TestXMLParserIntellij {
-    public static void main(String[] args) {
-        Locale locale = Locale.FRENCH;
-        final File f = new File(Utils.getResourcePath(locale));
-        try {
-            final InputStream source = new FileInputStream(f);
-            final List<Rule> rules = XMLParser.parse(source);
-            rules.forEach(System.out::println);
-        } catch (IOException e) {
-            throw new OrdinalsException("Could not access resource " + Utils.getResourceName(locale));
+    private static final Locale LOCALE = Locale.FRENCH;
+
+    public static void main(final String[] args) {
+        final String resourceFile = ResourceReader.getResourcePath(LOCALE);
+        try (final InputStream source = new FileInputStream(new File(resourceFile))) {
+            XMLParser.parse(source).forEach(System.out::println);
+        } catch (final IOException e) {
+            throw new OrdinalsException("Could not access resource " + resourceFile, e);
         }
     }
-
-
 }
