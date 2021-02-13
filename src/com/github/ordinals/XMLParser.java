@@ -1,17 +1,14 @@
 package com.github.ordinals;
 
-import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import static com.github.ordinals.utils.Utils.*;
 
 /**
  * This class contains methods for parsing xml files into XMLRule objects
@@ -46,6 +43,8 @@ public final class XMLParser {
                     final String genderAttribute = getAttribute         (ruleElement, "gender");
                     final int    remainder       = getAttributeAsInteger(ruleElement, "remainder");
                     final int    modulus         = getAttributeAsInteger(ruleElement, "modulus");
+                    final int    less            = getAttributeAsInteger(ruleElement, "less");
+                    final int    more            = getAttributeAsInteger(ruleElement,"more");
 
                     final Gender gender = "".equals(genderAttribute) ? Gender.NEUTRAL : Gender.getGenderOf(genderAttribute);
                     switch (type) {
@@ -54,6 +53,9 @@ public final class XMLParser {
                             break;
                         case "modulo":
                             rules.add(new ModuloRule(precedence, remainder, modulus, suffix, fullName, gender));
+                            break;
+                        case "inequality":
+                            rules.add(new InequalityRule(precedence, suffix, fullName, gender, less, more));
                             break;
                         default:
                             throw new OrdinalsException("parse error: unrecognized type \"" + type + "\" for rule " + ruleIndex + ", precedence(" + precedence + ")");
