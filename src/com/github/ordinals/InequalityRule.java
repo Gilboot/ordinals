@@ -16,7 +16,9 @@ public class InequalityRule extends Rule{
     }
 
     @Override boolean matches(final int i) {
-        return (less != 0 && i < less) || (more != 0 && i > more);
+        if (less != 0 && more != 0) return i < less && i > more;
+        if (less != 0) return i < less;
+        return i > more;
     }
 
     public int getLess() {

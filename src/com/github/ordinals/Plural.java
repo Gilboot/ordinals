@@ -5,7 +5,7 @@ package com.github.ordinals;
  * A class that states the plurality of a noun ie Singular or Plural
  */
 public enum Plural {
-        SINGULAR, PLURAL;
+        SINGULAR, PLURAL, NEUTRAL;
 
         static Plural getPluralOf(final String p) {
             switch (p) {
@@ -13,6 +13,8 @@ public enum Plural {
                     return SINGULAR;
                 case "p":
                     return PLURAL;
+                case "n":
+                    return NEUTRAL;
                 default:
                     throw new RuntimeException("unexpected plurality: " + p);
             }
