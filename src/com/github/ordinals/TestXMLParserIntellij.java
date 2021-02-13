@@ -12,7 +12,7 @@ import java.util.Locale;
  * Simple class to test how xml parser is working
  */
 public final class TestXMLParserIntellij {
-    private static final Locale LOCALE = Locale.FRENCH;
+    private static final Locale LOCALE = Locale.US;
 
     public static void main(final String[] args) {
         final String resourceFile = ResourceReader.getResourcePath(LOCALE);
