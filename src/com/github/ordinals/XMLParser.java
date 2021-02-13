@@ -45,6 +45,7 @@ public final class XMLParser {
                     final int    modulus         = getAttributeAsInteger(ruleElement, "modulus");
                     final int    less            = getAttributeAsInteger(ruleElement, "less");
                     final int    more            = getAttributeAsInteger(ruleElement,"more");
+                    final int    end             = getAttributeAsInteger(ruleElement, "end");
 
                     final Gender gender = "".equals(genderAttribute) ? Gender.NEUTRAL : Gender.getGenderOf(genderAttribute);
                     switch (type) {
@@ -57,8 +58,12 @@ public final class XMLParser {
                         case "inequality":
                             rules.add(new InequalityRule(precedence, suffix, fullName, gender, less, more));
                             break;
+                        case "ends_with":
+                            rules.add(new EndsWithRule(precedence, suffix, fullName, gender, end));
+                            break;
+
                         default:
-                            throw new OrdinalsException("parse error: unrecognized type \"" + type + "\" for rule " + ruleIndex + ", precedence(" + precedence + ")");
+                            throw new OrdinalsException("parse error: unrecognized type \"" + type + "\" for rule " + (ruleIndex + 1) + ", precedence(" + precedence + ")");
                     }
                 }
             }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rules locale="de" join="no_space">
+<rules locale="de" join="no_space" gender="n" plural="n" short_suffix=".">
     <!--    one -->
     <rule precedence="1" type="exact" value="1" short="." full="erste" />
     <rule precedence="2" type="exact" value="3" short="." full="dritte" />
