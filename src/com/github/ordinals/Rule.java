@@ -1,6 +1,6 @@
 package com.github.ordinals;
 
-abstract class Rule {
+abstract class Rule implements Comparable<Rule> {
     private final int precedence;
     private final String suffix;
     private final String fullName;
@@ -31,6 +31,14 @@ abstract class Rule {
 
     public Gender getGender() {
         return gender;
+    }
+
+    @Override public final int compareTo(final Rule other) {
+        if (this.getPrecedence() == other.getPrecedence()) {
+            throw new OrdinalsException("2 rules with equal precedence detected in the same locale: " + this + ", " + other);
+        }
+
+        return this.getPrecedence() < other.getPrecedence() ? 1 : -1;
     }
 
     @Override public final String toString() {
