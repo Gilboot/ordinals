@@ -1,3 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rules locale="base" join="rule_based">
+<rules join="rule_based">
+    <!-- zero -->
+    <rule precedence="10" type="exact" value="0" gender="n" plural="s" short_suffix="e" long_suffix="ieme" join="no_space" />
+    <rule precedence="10" type="exact" value="0" gender="n" plural="p" short_suffix="es" long_suffix="iemes" join="no_space" />
+
+    <!-- one -->
+    <rule precedence="10" type="exact" value="1" gender="m" plural="s" short_suffix="er" long_suffix="premier" join="replace" />
+    <rule precedence="10" type="exact" value="1" gender="m" plural="p" short_suffix="ers" long_suffix="premiers" join="replace" />
+    <rule precedence="10" type="exact" value="1" gender="f" plural="s" short_suffix="re" long_suffix="premiere" join="replace" />
+    <rule precedence="10" type="exact" value="1" gender="f" plural="p" short_suffix="res" long_suffix="premieres" join="replace" />
+
+    <!-- 11 to 16 -->
+    <rule precedence="20" type="inequality" gender="n" plural="s" short_suffix="e" long_suffix="ieme" more="10" less="17" join="minus_one" />
+    <rule precedence="20" type="inequality" gender="n" plural="p" short_suffix="es" long_suffix="iemes" more="10" less="17" join="minus_one" />
+
+    <!-- special cases -->
+    <!-- 4 -->
+    <rule precedence="30" type="modulo" gender="n" plural="s" short_suffix="e" long_suffix="uieme" modulus="10" remainder="4" join="minus_one" />
+    <rule precedence="30" type="modulo" gender="n" plural="p" short_suffix="e" long_suffix="uiemes" modulus="10" remainder="4" join="minus_one" />
+
+    <!-- 5 -->
+    <rule precedence="30" type="modulo" gender="n" plural="s" short_suffix="e" long_suffix="uieme" modulus="10" remainder="5" join="no_space" />
+    <rule precedence="30" type="modulo" gender="n" plural="p" short_suffix="e" long_suffix="uiemes" modulus="10" remainder="5" join="no_space" />
+
+    <!-- 9 -->
+    <rule precedence="30" type="modulo" gender="n" plural="s" short_suffix="e" long_suffix="vieme" modulus="10" remainder="9" join="minus_one" />
+    <rule precedence="30" type="modulo" gender="n" plural="p" short_suffix="e" long_suffix="viemes" modulus="10" remainder="9" join="minus_one" />
+
+
+    <!-- others -->
+    <rule precedence="50" type="inequality" value="0" gender="n" plural="s" short_suffix="e" long_suffix="ieme" join="no_space" more="1" />
+    <rule precedence="50" type="inequality" value="0" gender="n" plural="p" short_suffix="es" long_suffix="iemes" join="no_space" more="1" />
+
 </rules>

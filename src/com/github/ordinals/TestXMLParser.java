@@ -9,9 +9,12 @@ import java.util.Locale;
  */
 public final class TestXMLParser {
     public static void main(String[] args) {
+        Locale locale = Locale.US;
         final String resourceName = ResourceReader.getResourceName(Locale.US);
         final InputStream source = ResourceReader.readResourceAsStream(resourceName);
-        final List<Rule> rules = XMLParser.parse(source);
+
+        // changed from source to locale
+        final List<Rule> rules = XMLParser.parse(locale);
         rules.forEach(System.out::println);
     }
 }
