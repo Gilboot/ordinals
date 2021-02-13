@@ -1,6 +1,5 @@
 package com.github.ordinals;
 
-import com.github.ordinals.utils.Utils;
 import java.io.InputStream;
 import java.io.IOException;
 import java.util.Calendar;
@@ -23,7 +22,7 @@ public final class OrdinalsFactory {
     }
 
     private OrdinalsFactory(final Locale locale) {
-        final String resourceName = Utils.getResourceName(locale);
+        final String resourceName = ResourceReader.getResourceName(locale);
         final InputStream source = ResourceReader.readResourceAsStream(resourceName);
         this.rules.addAll(XMLParser.parse(source).stream().sorted().collect(Collectors.toList()));
     }
