@@ -74,6 +74,7 @@ public final class XMLParser {
                     final Element ruleElement = Element.class.cast(ruleNode);
 
                     final int    precedence      = getAttributeAsInteger(ruleElement, "precedence");
+
                     final String type            = getAttribute         (ruleElement, "type", defaultType);
                     final int    value           = getAttributeAsInteger(ruleElement, "value", defaultValue);
                     final String shortSuffix     = getAttribute         (ruleElement, "short_suffix", defaultShortSuffix);
@@ -98,6 +99,7 @@ public final class XMLParser {
                             break;
                         case "ends_with":
                             rules.add(new EndsWithRule(precedence, shortSuffix, longSuffix, gender, end));
+
                             break;
 
                         default:

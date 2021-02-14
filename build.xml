@@ -2,17 +2,52 @@
     <description>Ordinals</description>
 
     <property name="class.dir"     value="classes"/>
-    <property name="src.dir"       value="src"/>
     <property name="dist.dir"      value="dist"/>
+    <property name="lib.dir"       value="lib"/>
     <property name="resources.dir" value="resources"/>
+    <property name="src.dir"       value="src"/>
+    <property name="test.dir"      value="test"/>
+    <property name="test-out.dir"  value="test-out"/>
 
     <property name="jar.filename" value="${ant.project.name}.jar"/>
 
-    <target name="compile" depends="clean">
+    <property name="LIB_APIGUARDIAN_API_VERSION"         value="1.1.0"/>
+    <property name="LIB_JUNIT_JUPITER_ENGINE_VERSION"    value="5.7.1"/>
+    <property name="LIB_JUNIT_JUPITER_VERSION"           value="5.7.1"/>
+    <property name="LIB_JUNIT_PLATFORM_COMMONS_VERSION"  value="1.7.1"/>
+    <property name="LIB_JUNIT_PLATFORM_ENGINE_VERSION"   value="1.7.1"/>
+    <property name="LIB_JUNIT_PLATFORM_LAUNCHER_VERSION" value="1.7.1"/>
+    <property name="LIB_OPENTEST_VERSION"                value="1.2.0"/>
+
+    <property name="LIB_APIGUARDIAN_API"         value="apiguardian-api-${LIB_APIGUARDIAN_API_VERSION}.jar"/>
+    <property name="LIB_JUNIT_JUPITER"           value="junit-jupiter-api-${LIB_JUNIT_JUPITER_VERSION}.jar"/>
+    <property name="LIB_JUNIT_JUPITER_ENGINE"    value="junit-jupiter-engine-${LIB_JUNIT_JUPITER_VERSION}.jar"/>
+    <property name="LIB_JUNIT_PLATFORM_COMMONS"  value="junit-platform-commons-${LIB_JUNIT_PLATFORM_COMMONS_VERSION}.jar"/>
+    <property name="LIB_JUNIT_PLATFORM_ENGINE"   value="junit-platform-engine-${LIB_JUNIT_PLATFORM_LAUNCHER_VERSION}.jar"/>
+    <property name="LIB_JUNIT_PLATFORM_LAUNCHER" value="junit-platform-launcher-${LIB_JUNIT_PLATFORM_LAUNCHER_VERSION}.jar"/>
+    <property name="LIB_OPENTEST"                value="opentest4j-${LIB_OPENTEST_VERSION}.jar"/>
+
+    <property name="MAVEN_REPOSITORY_URL" value="https://repo1.maven.org/maven2/org"/>
+
+    <path id="unit-test.classpath">
+        <pathelement location="${class.dir}"/>
+        <pathelement location="${resources.dir}"/>
+        <fileset dir="${lib.dir}">
+            <include name="${LIB_APIGUARDIAN_API}"/>
+            <include name="${LIB_JUNIT_JUPITER}"/>
+            <include name="${LIB_JUNIT_JUPITER_ENGINE}"/>
+            <include name="${LIB_JUNIT_PLATFORM_COMMONS}"/>
+            <include name="${LIB_JUNIT_PLATFORM_ENGINE}"/>
+            <include name="${LIB_JUNIT_PLATFORM_LAUNCHER}"/>
+            <include name="${LIB_OPENTEST}"/>
+        </fileset>
+    </path>
+
+    <target name="compile" depends="neat">
         <mkdir dir="${class.dir}"/>
         <javac debug="true"
                release="8"
-               srcdir="src"
+               srcdir="${src.dir}"
                destdir="${class.dir}"
                includeantruntime="false">
             <compilerarg value="-Xlint:unchecked"/>
@@ -23,7 +58,48 @@
         </javac>
     </target>
 
-    <target name="dist" depends="compile">
+    <target name="getlibs">
+        <mkdir dir="${lib.dir}"/>
+        <get skipexisting="true" dest="lib">
+            <url url="${MAVEN_REPOSITORY_URL}/apiguardian/apiguardian-api/${LIB_APIGUARDIAN_API_VERSION}/${LIB_APIGUARDIAN_API}"/>
+            <url url="${MAVEN_REPOSITORY_URL}/junit/jupiter/junit-jupiter-api/${LIB_JUNIT_JUPITER_VERSION}/${LIB_JUNIT_JUPITER}"/>
+            <url url="${MAVEN_REPOSITORY_URL}/junit/jupiter/junit-jupiter-engine/${LIB_JUNIT_JUPITER_ENGINE_VERSION}/${LIB_JUNIT_JUPITER_ENGINE}"/>
+            <url url="${MAVEN_REPOSITORY_URL}/junit/platform/junit-platform-commons/${LIB_JUNIT_PLATFORM_COMMONS_VERSION}/${LIB_JUNIT_PLATFORM_COMMONS}"/>
+            <url url="${MAVEN_REPOSITORY_URL}/junit/platform/junit-platform-engine/${LIB_JUNIT_PLATFORM_ENGINE_VERSION}/${LIB_JUNIT_PLATFORM_ENGINE}"/>
+            <url url="${MAVEN_REPOSITORY_URL}/junit/platform/junit-platform-launcher/${LIB_JUNIT_PLATFORM_LAUNCHER_VERSION}/${LIB_JUNIT_PLATFORM_LAUNCHER}"/>
+            <url url="${MAVEN_REPOSITORY_URL}/opentest4j/opentest4j/${LIB_OPENTEST_VERSION}/${LIB_OPENTEST}"/>
+        </get>
+    </target>
+
+    <target name="unit-test-compile" depends="compile, getlibs">
+        <javac debug="true"
+               release="8"
+               srcdir="${test.dir}"
+               destdir="${class.dir}"
+               includeantruntime="false">
+            <classpath refid="unit-test.classpath"/>
+            <compilerarg value="-Xlint:unchecked"/>
+            <compilerarg value="-Xlint:deprecation"/>
+            <compilerarg value="-Xdiags:verbose"/>
+            <compilerarg line="-Xmaxerrs 1024"/>
+            <compilerarg line="-Xmaxwarns 1024"/>
+        </javac>
+    </target>
+
+    <target name="unit-test" depends="unit-test-compile">
+        <mkdir dir="${test-out.dir}"/>
+        <junitlauncher haltonfailure="true" printSummary="true">
+            <classpath refid="unit-test.classpath"/>
+            <testclasses outputdir="${test-out.dir}">
+                <fileset dir="${class.dir}">
+                    <include name="**/*Test.class"/>
+                </fileset>
+                <listener type="legacy-plain" sendSysOut="true"/>
+            </testclasses>
+        </junitlauncher>
+    </target>
+
+    <target name="dist" depends="unit-test">
         <mkdir dir="${dist.dir}"/>
         <exec executable="git" outputproperty="system.version" failifexecutionfails="false" errorproperty="">
             <arg value="describe"/>
@@ -42,8 +118,13 @@
         </jar>
     </target>
 
-    <target name="clean">
-        <delete dir="${dist.dir}"/>
+    <target name="neat">
         <delete dir="${class.dir}"/>
+        <delete dir="${dist.dir}"/>
+        <delete dir="${test-out.dir}"/>
+    </target>
+
+    <target name="clean" depends="neat">
+        <delete dir="${lib.dir}"/>
     </target>
 </project>
