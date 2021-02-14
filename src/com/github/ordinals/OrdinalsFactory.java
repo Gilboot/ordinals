@@ -6,12 +6,18 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
+/**
+ * @see https://stackoverflow.com/q/4011075/10030693
+ * @see https://en.m.wikipedia.org/wiki/Ordinal_indicator
+ */
 public final class OrdinalsFactory {
     private static final ConcurrentMap<Locale, OrdinalsFactory> factories = new ConcurrentHashMap<>();
 
@@ -27,8 +33,12 @@ public final class OrdinalsFactory {
         this.rules.addAll(XMLParser.parse(source).stream().sorted().collect(Collectors.toList()));
     }
 
+    public String getOrdinalSuffix(final int i) {
+        return rules.stream().filter(r -> r.matches(i)).findFirst().get().getSuffix();
+    }
+
     public String getOrdinalWithSuffix(final int i) {
-        return i + rules.stream().filter(r -> r.matches(i)).findFirst().get().getSuffix();
+        return i + getOrdinalSuffix(i);
     }
 
     public String getOrdinalWithSuffix(final int i, final Gender g) {
@@ -44,40 +54,16 @@ public final class OrdinalsFactory {
     }
 
     /**
-     * Get the ordinal suffix for the day of the month.
-     *
-     * @param dayOfTheMonth the day of the month.
-     *
-     * @throws IllegalArgumentException if the value of {@code dayOfTheMonth} is not a valid day of a month.
-     *
-     * @see https://stackoverflow.com/a/4011232/10030693
-     */
-    public static String getDayOfMonthSuffix(final int dayOfTheMonth) {
-        if (dayOfTheMonth < 1 || dayOfTheMonth > 31) {
-            throw new IllegalArgumentException("day of month must be between 1 and 31 inclusive: " + dayOfTheMonth);
-        }
-
-        if (dayOfTheMonth >= 11 && dayOfTheMonth <= 13) {
-            return "th";
-        }
-
-        switch (dayOfTheMonth % 10) {
-            case 1:  return "st";
-            case 2:  return "nd";
-            case 3:  return "rd";
-            default: return "th";
-        }
-    }
-
-    /**
      * Produces the day of month suffix from a {@code Date}.
      *
      * @param date The {@code Date} of which the day of the month suffix is produced.
      *
      * @return suffix representing day of month.
+     *
+     * @see https://stackoverflow.com/a/4011232/10030693
      */
-    public static String getDayOfMonthSuffix(final Date date) {
-        return getDayOfMonthSuffix(getDayOfMonth(date));
+    public String getDayOfMonthSuffix(final Date date) {
+        return getOrdinalSuffix(getDayOfMonth(date));
     }
 
     /**
@@ -87,7 +73,7 @@ public final class OrdinalsFactory {
      *
      * @return the day of the month for {@code date}.
      */
-    public static int getDayOfMonth(final Date date) {
+    public int getDayOfMonth(final Date date) {
         if (date == null) {
             throw new NullPointerException("null: date");
         }
@@ -95,5 +81,19 @@ public final class OrdinalsFactory {
         final Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         return cal.get(Calendar.DAY_OF_MONTH);
+    }
+
+
+    /**
+     * Format a date including a suffix as an ordinal indicator.
+     *
+     * @param date The {@code Date} to format.
+     *
+     * @return the date formatted.
+     */
+    public String getFormattedDate(final Date date) {
+        final String dayNumberSuffix = getDayOfMonthSuffix(date);
+        final DateFormat dateFormat = new SimpleDateFormat(String.format("E',' dd'%1s' MMM yyyy 'at' hh:mm a", dayNumberSuffix), Locale.US);
+        return dateFormat.format(date);
     }
 }

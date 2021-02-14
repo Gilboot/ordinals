@@ -8,6 +8,9 @@
 /classes
 /out
 
+# Generated test reports
+/test-out
+
 # Log file
 *.log
 

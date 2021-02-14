@@ -38,28 +38,29 @@ public final class XMLParser {
                     final int    precedence      = getAttributeAsInteger(ruleElement, "precedence");
                     final String type            = getAttribute         (ruleElement, "type");
                     final int    value           = getAttributeAsInteger(ruleElement, "value");
-                    final String suffix          = getAttribute         (ruleElement, "suffix");
+                    final String shortSuffix     = getAttribute         (ruleElement, "short_suffix");
+                    final String longSuffix      = getAttribute         (ruleElement, "long_suffix");
                     final String fullName        = getAttribute         (ruleElement, "fullname");
                     final String genderAttribute = getAttribute         (ruleElement, "gender");
                     final int    remainder       = getAttributeAsInteger(ruleElement, "remainder");
                     final int    modulus         = getAttributeAsInteger(ruleElement, "modulus");
                     final int    less            = getAttributeAsInteger(ruleElement, "less");
-                    final int    more            = getAttributeAsInteger(ruleElement,"more");
+                    final int    more            = getAttributeAsInteger(ruleElement, "more");
                     final int    end             = getAttributeAsInteger(ruleElement, "end");
 
                     final Gender gender = "".equals(genderAttribute) ? Gender.NEUTRAL : Gender.getGenderOf(genderAttribute);
                     switch (type) {
                         case "exact":
-                            rules.add(new ExactRule(precedence, value, suffix, fullName, gender));
+                            rules.add(new ExactRule(precedence, value, shortSuffix, fullName, gender));
                             break;
                         case "modulo":
-                            rules.add(new ModuloRule(precedence, remainder, modulus, suffix, fullName, gender));
+                            rules.add(new ModuloRule(precedence, remainder, modulus, shortSuffix, fullName, gender));
                             break;
                         case "inequality":
-                            rules.add(new InequalityRule(precedence, suffix, fullName, gender, less, more));
+                            rules.add(new InequalityRule(precedence, shortSuffix, fullName, gender, less, more));
                             break;
                         case "ends_with":
-                            rules.add(new EndsWithRule(precedence, suffix, fullName, gender, end));
+                            rules.add(new EndsWithRule(precedence, shortSuffix, fullName, gender, end));
                             break;
 
                         default:
