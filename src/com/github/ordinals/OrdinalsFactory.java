@@ -3,6 +3,7 @@ package com.github.ordinals;
 import java.io.InputStream;
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -29,6 +30,10 @@ public final class OrdinalsFactory {
 
     private OrdinalsFactory(final Locale locale) {
         this.rules.addAll(new XMLParser().parse(locale));
+    }
+
+    public List<Rule> getRules() {
+        return Collections.unmodifiableList(rules);
     }
 
     public String getOrdinalSuffix(final int i) {

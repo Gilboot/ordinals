@@ -22,6 +22,15 @@ public final class Ordinals {
     private static volatile boolean go = true;
 
     enum Command {
+        RULES {
+            @Override void execute(final String... args) {
+                if (args.length != 1) {
+                    usage();
+                    return;
+                }
+                ordinalsFactory.getRules().stream().forEach(r -> println("%s", r));
+            }
+        },
         LOCALE {
             @Override void execute(final String... args) {
                 if (args.length < 2 || args.length > 4) {
