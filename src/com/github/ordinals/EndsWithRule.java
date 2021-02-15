@@ -20,4 +20,22 @@ final class EndsWithRule extends Rule {
     @Override String ruleToString() {
         return "ends with " + endsWith;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        EndsWithRule that = (EndsWithRule) o;
+
+        return endsWith == that.endsWith;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + endsWith;
+        return result;
+    }
 }

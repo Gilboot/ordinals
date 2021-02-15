@@ -25,4 +25,24 @@ final class ModuloRule extends Rule {
     @Override String ruleToString() {
         return "congruent to " + remainder + " modulo " + modulus;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        ModuloRule that = (ModuloRule) o;
+
+        if (remainder != that.remainder) return false;
+        return modulus == that.modulus;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + remainder;
+        result = 31 * result + modulus;
+        return result;
+    }
 }

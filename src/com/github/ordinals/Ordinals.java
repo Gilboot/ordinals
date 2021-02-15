@@ -12,11 +12,11 @@ import java.util.function.Supplier;
  * Interactive shell for experimenting with ordinals.
  */
 public final class Ordinals {
-    public static final String EOL = System.getProperty("line.separator", "\n");
+    public  static final String EOL             = System.getProperty("line.separator", "\n");
     private static final String BREAK_CHARACTER = "ctrl-d on a real system or ctrl-z on windoze (this string is a poison-pill because it contains spaces and split already happened)";
-    private static final Console console = System.console();
+    private static final Console console        = System.console();
 
-    private static volatile Locale locale = Locale.US;
+    private static volatile Locale locale                   = Locale.US;
     private static volatile OrdinalsFactory ordinalsFactory = OrdinalsFactory.getInstance(locale);
 
     private static volatile boolean go = true;

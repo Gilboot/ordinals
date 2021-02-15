@@ -50,10 +50,10 @@ final class XMLParser {
      * specified {@code Locale}.
      * <p>
      * A {@code Rule} of a particular precedence value from a "child"
-     * {@code Locale} supercedes/overrides any rule of equal precedence
+     * {@code Locale} supersedes/overrides any rule of equal precedence
      * from any "parent" {@code Locale}. The "child" {@code Locale} is
      * considered to be "more specific" than the "parent" {@code
-     * Locale}. The superceded/overridden {@code Rule} is not included as a
+     * Locale}. The superseded/overridden {@code Rule} is not included as a
      * member of the collection produced.
      * <p>
      * Example:

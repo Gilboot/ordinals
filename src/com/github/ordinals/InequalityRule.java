@@ -32,4 +32,24 @@ public class InequalityRule extends Rule{
     @Override String ruleToString() {
         return "less than " + less + " or more than " + more;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        InequalityRule that = (InequalityRule) o;
+
+        if (less != that.less) return false;
+        return more == that.more;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + less;
+        result = 31 * result + more;
+        return result;
+    }
 }

@@ -1,16 +1,18 @@
 package com.github.ordinals;
 
+import java.util.Objects;
+
 abstract class Rule implements Comparable<Rule> {
-    private final int precedence;
-    private final String suffix;
-    private final String fullName;
+    private final int    precedence;
+    private final String shortSuffix;
+    private final String longSuffix;
     private final Gender gender;
 
-    Rule(final int precedence, final String suffix, final String fullName, final Gender gender) {
-        this.precedence = precedence;
-        this.suffix     = suffix;
-        this.fullName   = fullName;
-        this.gender     = gender;
+    Rule(final int precedence, final String shortSuffix, final String longSuffix, final Gender gender) {
+        this.precedence  = precedence;
+        this.shortSuffix = shortSuffix;
+        this.longSuffix  = longSuffix;
+        this.gender      = gender;
     }
 
     abstract boolean matches(int i);
@@ -21,12 +23,12 @@ abstract class Rule implements Comparable<Rule> {
         return precedence;
     }
 
-    public String getSuffix() {
-        return suffix;
+    public String getShortSuffix() {
+        return shortSuffix;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getLongSuffix() {
+        return longSuffix;
     }
 
     public Gender getGender() {
@@ -42,6 +44,29 @@ abstract class Rule implements Comparable<Rule> {
     }
 
     @Override public final String toString() {
-        return "[rule(" + precedence + "): " + ruleToString() + ", suffix: " + suffix + ", fullName: " + fullName + ", gender: " + gender + "]";
+        return "[rule(" + precedence + "): " + ruleToString() + ", suffix: " + shortSuffix + ", fullName: " + longSuffix + ", gender: " + gender + "]";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Rule rule = (Rule) o;
+
+        if (precedence != rule.precedence) return false;
+        if (!Objects.equals(shortSuffix, rule.shortSuffix)) return false;
+        if (!Objects.equals(longSuffix, rule.longSuffix)) return false;
+        return gender == rule.gender;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = precedence;
+        result = 31 * result + (shortSuffix != null ? shortSuffix.hashCode() : 0);
+        result = 31 * result + (longSuffix != null ? longSuffix.hashCode() : 0);
+        result = 31 * result + (gender != null ? gender.hashCode() : 0);
+        return result;
     }
 }
+
