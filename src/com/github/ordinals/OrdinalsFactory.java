@@ -28,10 +28,7 @@ public final class OrdinalsFactory {
     }
 
     private OrdinalsFactory(final Locale locale) {
-        final String resourceName = ResourceReader.getResourceName(locale);
-        final InputStream source = ResourceReader.readResourceAsStream(resourceName);
-        // changed from source to locale
-        this.rules.addAll(XMLParser.parse(locale).stream().sorted().collect(Collectors.toList()));
+        this.rules.addAll(new XMLParser().parse(locale));
     }
 
     public String getOrdinalSuffix(final int i) {

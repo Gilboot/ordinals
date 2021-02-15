@@ -38,7 +38,7 @@ abstract class Rule implements Comparable<Rule> {
             throw new OrdinalsException("2 rules with equal precedence detected in the same locale: " + this + ", " + other);
         }
 
-        return this.getPrecedence() < other.getPrecedence() ? 1 : -1;
+        return this.getPrecedence() > other.getPrecedence() ? 1 : -1;
     }
 
     @Override public final String toString() {
