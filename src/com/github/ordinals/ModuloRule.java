@@ -1,5 +1,7 @@
 package com.github.ordinals;
 
+import java.util.Objects;
+
 final class ModuloRule extends Rule {
     final int remainder;
     final int modulus;
@@ -28,21 +30,11 @@ final class ModuloRule extends Rule {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-
-        ModuloRule that = (ModuloRule) o;
-
-        if (remainder != that.remainder) return false;
-        return modulus == that.modulus;
+        return super.equals(o) && remainder == ((ModuloRule) o).remainder && modulus == ((ModuloRule) o).modulus;
     }
 
     @Override
     public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + remainder;
-        result = 31 * result + modulus;
-        return result;
+        return Objects.hash(super.hashCode(), remainder, modulus);
     }
 }

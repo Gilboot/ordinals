@@ -49,24 +49,17 @@ abstract class Rule implements Comparable<Rule> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Rule rule = (Rule) o;
-
-        if (precedence != rule.precedence) return false;
-        if (!Objects.equals(shortSuffix, rule.shortSuffix)) return false;
-        if (!Objects.equals(longSuffix, rule.longSuffix)) return false;
-        return gender == rule.gender;
+        if(!(o instanceof Rule)) return false;
+        Rule other = (Rule) o;
+        return  (precedence == other.precedence) &&
+                (shortSuffix == null ||  shortSuffix.equals(other.shortSuffix)) &&
+                (longSuffix == null || longSuffix.equals(other.longSuffix)) &&
+                (gender == null || gender.equals(other.gender));
     }
 
     @Override
     public int hashCode() {
-        int result = precedence;
-        result = 31 * result + (shortSuffix != null ? shortSuffix.hashCode() : 0);
-        result = 31 * result + (longSuffix != null ? longSuffix.hashCode() : 0);
-        result = 31 * result + (gender != null ? gender.hashCode() : 0);
-        return result;
+        return Objects.hash(precedence, shortSuffix, longSuffix, gender);
     }
 }
 

@@ -1,5 +1,7 @@
 package com.github.ordinals;
 
+import java.util.Objects;
+
 final class ExactRule extends Rule {
     final int ordinal;
 
@@ -22,19 +24,11 @@ final class ExactRule extends Rule {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-
-        ExactRule exactRule = (ExactRule) o;
-
-        return ordinal == exactRule.ordinal;
+        return super.equals(o) && ordinal == ((ExactRule) o).ordinal;
     }
 
     @Override
     public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + ordinal;
-        return result;
+        return Objects.hash(super.hashCode(), ordinal);
     }
 }
