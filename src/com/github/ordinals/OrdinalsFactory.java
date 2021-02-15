@@ -1,7 +1,5 @@
 package com.github.ordinals;
 
-import java.io.InputStream;
-import java.io.IOException;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -12,8 +10,6 @@ import java.text.SimpleDateFormat;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
 /**
  * @see https://stackoverflow.com/q/4011075/10030693
@@ -37,7 +33,7 @@ public final class OrdinalsFactory {
     }
 
     public String getOrdinalSuffix(final int i) {
-        return rules.stream().filter(r -> r.matches(i)).findFirst().get().getSuffix();
+        return rules.stream().filter(r -> r.matches(i)).findFirst().get().getShortSuffix();
     }
 
     public String getOrdinalWithSuffix(final int i) {
@@ -49,7 +45,7 @@ public final class OrdinalsFactory {
     }
 
     public String getOrdinalFullName(final int i) {
-        return rules.stream().filter(r -> r.matches(i)).findFirst().get().getFullName();
+        return rules.stream().filter(r -> r.matches(i)).findFirst().get().getLongSuffix();
     }
 
     public String getOrdinalFullName(final int i, final Gender g) {
