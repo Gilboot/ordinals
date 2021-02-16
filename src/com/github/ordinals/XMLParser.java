@@ -115,7 +115,6 @@ final class XMLParser {
                     plural                  = getAttribute(ruleElement, TOKEN_PLURAL);
                     shortSuffix             = getAttribute(ruleElement, TOKEN_SHORT_SUFFIX);
 
-
                     final String end        = getAttribute(ruleElement, TOKEN_END);
                     final String less       = getAttribute(ruleElement, TOKEN_LESS);
                     final String modulus    = getAttribute(ruleElement, TOKEN_MODULUS);
@@ -144,8 +143,6 @@ final class XMLParser {
 
                         default: throw new OrdinalsException("parse error: unrecognized type \"" + type + "\" for rule with precedence " + precedence);
                     } 
-                    // All parameters are String objects organized in alphabetical order.
-                    ruleSet.addRule(end, gender, join, longSuffix, less, modulus, more, plural, precedence, remainder, shortSuffix, type, value);
                 } else {
                     throw new OrdinalsException("unexpected node type: " + ruleNode.getNodeType());
                 }
