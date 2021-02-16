@@ -59,11 +59,12 @@ abstract class Rule implements Comparable<Rule> {
     public boolean equals(Object o) {
         if(!(o instanceof Rule)) return false;
         Rule other = Rule.class.cast(o);
-        return  (precedence  == other.precedence) &&
-                (shortSuffix == null || shortSuffix.equals(other.shortSuffix)) &&
+        return  (gender      == null || gender.equals(other.gender)) &&
+                (join        == null || join.equals(other.join)) &&
                 (longSuffix  == null || longSuffix.equals(other.longSuffix)) &&
                 (plural      == null || plural.equals(other.plural)) &&
-                (gender      == null || gender.equals(other.gender));
+                (precedence  == other.precedence) &&
+                (shortSuffix == null || shortSuffix.equals(other.shortSuffix));
     }
 
     @Override
