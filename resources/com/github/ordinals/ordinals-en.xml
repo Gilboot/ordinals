@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rules locale="en" gender="n" join="no_space" short_suffix="th" long_suffix="th">
+    <rule precedence="4" type="exact" value="11" short_suffix="th" long_suffix="eleventh"  join="minus_word" />
+    <rule precedence="6" type="exact" value="12" short_suffix="th" long_suffix="twelfth"   join="minus_word" />
+    <rule precedence="8" type="exact" value="13" short_suffix="th" long_suffix="thirteeth" join="minus_word" />
     <rule precedence="10" type="modulo" remainder="1" modulus="10" short_suffix="st" long_suffix="first" join="minus_word" />
     <rule precedence="20" type="modulo" remainder="2" modulus="10" short_suffix="nd" long_suffix="second" join="minus_word" />
     <rule precedence="30" type="modulo" remainder="3" modulus="10" short_suffix="rd" long_suffix="third" join="minus_word" />
+    <rule precedence="40" type="modulo" remainder="4" modulus="10" short_suffix="th" long_suffix="fourth" join="minus_word" />
     <rule precedence="50" type="modulo" remainder="5" modulus="10" short_suffix="th" long_suffix="fifth" join="minus_word" />
+    <rule precedence="60" type="modulo" remainder="6" modulus="10" short_suffix="th" long_suffix="sixth" join="minus_word" />
+    <rule precedence="70" type="modulo" remainder="7" modulus="10" short_suffix="th" long_suffix="seventh" join="minus_word" />
     <rule precedence="80" type="modulo" remainder="8" modulus="10" short_suffix="th" long_suffix="eighth" join="minus_word" />
     <rule precedence="90" type="modulo" remainder="9" modulus="10" short_suffix="th" long_suffix="ninth" join="minus_word" />
 
