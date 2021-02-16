@@ -110,6 +110,8 @@
 
         <jar destfile="${dist.dir}/${jar.filename}">
             <manifest>
+                <attribute name="Main-Class" value="com.github.ordinals.Ordinals"/>
+                <attribute name="Class-Path" value="."/>
                 <attribute name="TestXMLParser" value="com.github.ordinals.TestXMLParser"/>
                 <attribute name="Version" value="${system.version}"/>
             </manifest>
