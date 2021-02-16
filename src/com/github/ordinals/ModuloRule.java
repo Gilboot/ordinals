@@ -6,8 +6,16 @@ final class ModuloRule extends Rule {
     final int remainder;
     final int modulus;
 
-    ModuloRule(final int precedence, final int remainder, final int modulus, final String suffix, final String fullName, final Gender gender) {
-        super(precedence, suffix, fullName, gender);
+    ModuloRule(
+        final Gender gender,
+        final String longSuffix,
+        final int    modulus,
+        final Plural plural,
+        final int    precedence,
+        final int    remainder,
+        final String shortSuffix
+    ) {
+        super(gender, longSuffix, plural, precedence, shortSuffix);
         this.remainder = remainder;
         this.modulus = modulus;
     }

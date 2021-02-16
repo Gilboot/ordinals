@@ -9,8 +9,15 @@ import java.util.Objects;
 final class EndsWithRule extends Rule {
     final int endsWith;
 
-    EndsWithRule(final int precedence, final String suffix, final String fullName, final Gender gender, final int endsWith) {
-        super(precedence, suffix, fullName, gender);
+    EndsWithRule(
+        final int endsWith,
+        final Gender gender,
+        final String longSuffix,
+        final Plural plural,
+        final int    precedence,
+        final String shortSuffix
+    ) {
+        super(gender, longSuffix, plural, precedence, shortSuffix);
         this.endsWith = endsWith;
     }
 

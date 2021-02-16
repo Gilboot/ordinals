@@ -49,7 +49,7 @@ final class XMLParser {
      *                           Rules} XML.
      *
      * @see https://www.tutorialspoint.com/java_xml/java_dom_parse_document.htm
-     * @see https://stackoverflow.com/a/15690414/10030693 to get element of root node:
+     * @see https://stackoverflow.com/a/15690414/10030693 to get element of root node
      */
     RuleSet parse(final String locale) {
         if (locale == null) {

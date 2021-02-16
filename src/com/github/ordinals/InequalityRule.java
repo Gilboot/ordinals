@@ -11,8 +11,16 @@ public class InequalityRule extends Rule{
     final int less;
     final int more;
 
-    InequalityRule(final int precedence, final String suffix, final String fullName, final Gender gender, final int less, final int more) {
-        super(precedence, suffix, fullName, gender);
+    InequalityRule(
+            final Gender gender,
+            final int    less,
+            final String longSuffix,
+            final int    more,
+            final Plural plural,
+            final int    precedence,
+            final String shortSuffix
+        ) {
+        super(gender, longSuffix, plural, precedence, shortSuffix);
         this.less = less;
         this.more = more;
     }
