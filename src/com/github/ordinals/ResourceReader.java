@@ -50,6 +50,6 @@ final class ResourceReader {
      * @return the path to the repository resource file.
      */
     static String getResourcePath(final Locale locale) {
-        return String.join(File.separator, RESOURCES_REPOSITORY_DIRECTORY, ResourceReader.class.getPackage().getName().replace('.', '/'), getResourceName(locale));
+        return String.join(File.separator, RESOURCES_REPOSITORY_DIRECTORY, ResourceReader.class.getPackage().getName().replace(".", File.separator), getResourceName(locale));
     }
 }
