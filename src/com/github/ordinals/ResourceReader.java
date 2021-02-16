@@ -41,6 +41,21 @@ final class ResourceReader {
         }
         return RESOURCE_NAME_PREFIX + locale + RESOURCE_NAME_SUFFIX;
     }
+    /**
+     * Produces resource name as a function of {@code Locale}.
+     *
+     * @param locale The name of locale.
+     *
+     * @return resource name.
+     *
+     * @throws NullPointerException if locale is {@code null}.
+     */
+    static String getResourceName(final String locale) {
+        if (locale == null || "".equals(locale)) {
+            throw new NullPointerException("locale: null or empty: " + locale);
+        }
+        return RESOURCE_NAME_PREFIX + locale + RESOURCE_NAME_SUFFIX;
+    }
 
     /**
      * Produces the repository (not jar) file path to the resource as a function of {@code Locale}.

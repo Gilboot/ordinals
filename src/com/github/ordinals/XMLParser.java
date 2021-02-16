@@ -20,21 +20,19 @@ final class XMLParser {
     private static final String
         TOKEN_END             = "end",
         TOKEN_GENDER          = "gender",
+        TOKEN_JOIN            = "join",
         TOKEN_LESS            = "less",
         TOKEN_LOCALE          = "locale",
         TOKEN_LONG_SUFFIX     = "long_suffix",
         TOKEN_MODULUS         = "modulus",
         TOKEN_MORE            = "more",
+        TOKEN_PLURAL          = "plural",
         TOKEN_PRECEDENCE      = "precedence",
         TOKEN_REMAINDER       = "remainder",
         TOKEN_RULE            = "rule",
         TOKEN_RULES           = "rules",
         TOKEN_SHORT_SUFFIX    = "short_suffix",
         TOKEN_TYPE            = "type",
-        TOKEN_TYPE_ENDS_WITH  = "ends_with",
-        TOKEN_TYPE_EXACT      = "exact",
-        TOKEN_TYPE_INEQUALITY = "inequality",
-        TOKEN_TYPE_MODULO     = "modulo",
         TOKEN_VALUE           = "value";
 
     /**
@@ -44,37 +42,7 @@ final class XMLParser {
     }
 
     /**
-     * Produces an ordered {@code List} (with respect to {@linkplain
-     * Rule#getPrecedence()} precedence) of {@link Rule} data, parsed from
-     * XML, on the classpath (as per {@link ResourceReader}), for the
-     * specified {@code Locale}.
-     * <p>
-     * A {@code Rule} of a particular precedence value from a "child"
-     * {@code Locale} supersedes/overrides any rule of equal precedence
-     * from any "parent" {@code Locale}. The "child" {@code Locale} is
-     * considered to be "more specific" than the "parent" {@code
-     * Locale}. The superseded/overridden {@code Rule} is not included as a
-     * member of the collection produced.
-     * <p>
-     * Example:
-     * <p>
-     * A {@code Rule} of precedence, say {@code 10}, from {@code Locale}
-     * {@code "en_US"} ("child {@code Locale}")
-     * supercedes/replaces/overrides/takes-precedence-over another {@code
-     * Rule} of precedence {@code 10} from {@code Locale} {@code "en"} (a
-     * "parent {@code Locale}" of {@code Locale} {@code "en_US"}).
-     *
-     * @param locale The {@code Locale} whose {@code Rules} are parsed
-     *               along with {@code Rules} of all "parent" {@code
-     *               Locales}.
-     *
-     * @return An ordered {@code List} (with respect to {@linkplain
-     *         Rule#getPrecedence() precedence}) of {@code Rules} with no
-     *         two {@code Rules} having equal precedence. Each {@code Rule}
-     *         of a particular precedence is from "most specific child"
-     *         {@code Locale}, overriding any {@code Rule} of equal
-     *         precedence from any parent {@code Locale}.
-     *
+     * Produces a {@code RuleSet}
      * @throws NullPointerException if {@code locale} is {@code null}.
      *
      * @throws OrdinalsException if an error occurs while parsing {@code
@@ -83,10 +51,19 @@ final class XMLParser {
      * @see https://www.tutorialspoint.com/java_xml/java_dom_parse_document.htm
      * @see https://stackoverflow.com/a/15690414/10030693 to get element of root node:
      */
-    List<Rule> parse(final Locale locale) {
+    RuleSet parse(final String locale) {
         if (locale == null) {
             throw new NullPointerException("locale: null");
         }
+        if("".equals(locale)) {
+            throw new OrdinalsException("Locale: blank");
+        }
+
+        // Initialize ruleSet
+        // We shall first set the attribute on rules
+        // And then add the set of rules
+        RuleSet ruleSet = new RuleSet();
+
         try (final InputStream xml = ResourceReader.readResourceAsStream(ResourceReader.getResourceName(locale))) {
             final DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             final DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -104,31 +81,20 @@ final class XMLParser {
             if ("".equals(localeAttribute) || localeAttribute == null) {
                 throw new OrdinalsException(TOKEN_LOCALE + " attribute missing in " + TOKEN_RULES + " element for " + locale);
             }
-
-            if (! localeAttribute.equals(locale.toString())) {
-                throw new OrdinalsException(TOKEN_LOCALE + " attribute in " + TOKEN_RULES + " element " + localeAttribute + " does not match locale " + locale);
+            if(! locale.equals(localeAttribute)) {
+                throw new OrdinalsException(localeAttribute + " in file does not match specified locale " + locale);
             }
 
-            // parent rules are in effect unless they are overridden by child rules at this level.
-            final Optional<Locale> parentLocale = getParentLocale(locale);
-            final List<Rule> parentRules = parentLocale.isPresent()
-                ? parse(parentLocale.get())
-                : new ArrayList<>(); // might be a root locale, no parent, recursion base case
-
             // set attribute value defaults for each individual rule from the rules element
-            final String defaultType            = getAttribute         (rulesElement, TOKEN_TYPE);
-            final int    defaultValue           = getAttributeAsInteger(rulesElement, TOKEN_VALUE);
-            final String defaultShortSuffix     = getAttribute         (rulesElement, TOKEN_SHORT_SUFFIX);
-            final String defaultLongSuffix      = getAttribute         (rulesElement, TOKEN_LONG_SUFFIX);
-            final String defaultGender          = getAttribute         (rulesElement, TOKEN_GENDER);
-            final int    defaultRemainder       = getAttributeAsInteger(rulesElement, TOKEN_REMAINDER);
-            final int    defaultModulus         = getAttributeAsInteger(rulesElement, TOKEN_MODULUS);
-            final int    defaultLess            = getAttributeAsInteger(rulesElement, TOKEN_LESS);
-            final int    defaultMore            = getAttributeAsInteger(rulesElement, TOKEN_MORE);
-            final int    defaultEnd             = getAttributeAsInteger(rulesElement, TOKEN_END);
+            String shortSuffix     = getAttribute         (rulesElement, TOKEN_SHORT_SUFFIX);
+            String longSuffix      = getAttribute         (rulesElement, TOKEN_LONG_SUFFIX);
+            String gender          = getAttribute         (rulesElement, TOKEN_GENDER);
+            String join            = getAttribute         (rulesElement, TOKEN_JOIN);
+            String plural          = getAttribute         (rulesElement, TOKEN_PLURAL);
 
-            // read all of the rules, rules can appear in any order with respect to precedence, don't sort them yet
-            final List<Rule> rules = new ArrayList<>();
+            ruleSet.setProperties(locale, join, shortSuffix, longSuffix, gender, plural);
+
+            // read all of the rules, rules can appear in any order
             final NodeList nodeList = doc.getElementsByTagName(TOKEN_RULE);
             for (int ruleIndex = 0; ruleIndex < nodeList.getLength(); ruleIndex++) {
                 final Node ruleNode = nodeList.item(ruleIndex);
@@ -139,50 +105,29 @@ final class XMLParser {
                         throw new OrdinalsException("expected " + TOKEN_RULE + " element, not " + ruleElementName + " for locale " + locale);
                     }
 
-                    final int precedence = getAttributeAsInteger(ruleElement, TOKEN_PRECEDENCE); // precedence must be explicitly written, no default
+                    shortSuffix             = getAttribute(ruleElement, TOKEN_SHORT_SUFFIX);
+                    longSuffix              = getAttribute(ruleElement, TOKEN_LONG_SUFFIX);
+                    gender                  = getAttribute(ruleElement, TOKEN_GENDER);
+                    plural                  = getAttribute(ruleElement, TOKEN_PLURAL);
+                    join                    = getAttribute(ruleElement, TOKEN_JOIN);
 
-                    final String type            = getAttribute         (ruleElement, TOKEN_TYPE,         defaultType);
-                    final int    value           = getAttributeAsInteger(ruleElement, TOKEN_VALUE,        defaultValue);
-                    final String shortSuffix     = getAttribute         (ruleElement, TOKEN_SHORT_SUFFIX, defaultShortSuffix);
-                    final String longSuffix      = getAttribute         (ruleElement, TOKEN_LONG_SUFFIX,  defaultLongSuffix);
-                    final String genderAttribute = getAttribute         (ruleElement, TOKEN_GENDER,       defaultGender);
-                    final int    remainder       = getAttributeAsInteger(ruleElement, TOKEN_REMAINDER,    defaultRemainder);
-                    final int    modulus         = getAttributeAsInteger(ruleElement, TOKEN_MODULUS,      defaultModulus);
-                    final int    less            = getAttributeAsInteger(ruleElement, TOKEN_LESS,         defaultLess);
-                    final int    more            = getAttributeAsInteger(ruleElement, TOKEN_MORE,         defaultMore);
-                    final int    end             = getAttributeAsInteger(ruleElement, TOKEN_END,          defaultEnd);
+                    final String precedence = getAttribute(ruleElement, TOKEN_PRECEDENCE); // precedence must be explicitly written, no default
+                    final String type       = getAttribute(ruleElement, TOKEN_TYPE);
+                    final String value      = getAttribute(ruleElement, TOKEN_VALUE);
+                    final String remainder  = getAttribute(ruleElement, TOKEN_REMAINDER);
+                    final String modulus    = getAttribute(ruleElement, TOKEN_MODULUS);
+                    final String less       = getAttribute(ruleElement, TOKEN_LESS);
+                    final String more       = getAttribute(ruleElement, TOKEN_MORE);
+                    final String end        = getAttribute(ruleElement, TOKEN_END);
 
-                    final Gender gender = Gender.getGenderOf(genderAttribute);
-
-                    final Supplier<Rule> ruleGenerator = () -> {
-                        switch (type) {
-                            case TOKEN_TYPE_EXACT:      return new ExactRule(precedence, value, shortSuffix, longSuffix, gender);
-                            case TOKEN_TYPE_MODULO:     return new ModuloRule(precedence, remainder, modulus, shortSuffix, longSuffix, gender);
-                            case TOKEN_TYPE_INEQUALITY: return new InequalityRule(precedence, shortSuffix, longSuffix, gender, less, more);
-                            case TOKEN_TYPE_ENDS_WITH:  return new EndsWithRule(precedence, shortSuffix, longSuffix, gender, end);
-                            default: throw new OrdinalsException("parse error: unrecognized type \"" + type + "\" for rule with precedence " + precedence);
-                        }
-                    };
-                    rules.add(ruleGenerator.get());
+                    // All parameters are String objects organized in alphabetical order.
+                    ruleSet.addRule(end, gender, join, longSuffix, less, modulus, more, plural, precedence, remainder, shortSuffix, type, value);
                 } else {
                     throw new OrdinalsException("unexpected node type: " + ruleNode.getNodeType());
                 }
             }
 
-            // override parent rules with child rules producing a sorted list (modified merge sort, choosing child rule if there is a precedence conflict)
-            final List<Rule> result = new ArrayList<>();
-            int parentRuleIndex = 0;
-            for (Rule r : rules) {
-                while (parentRuleIndex < parentRules.size() && parentRules.get(parentRuleIndex).getPrecedence() < r.getPrecedence()) { // lower number is higher precedence
-                    result.add(parentRules.get(parentRuleIndex++));
-                }
-                while (parentRuleIndex < parentRules.size() && parentRules.get(parentRuleIndex).getPrecedence() == r.getPrecedence()) { // should be at most 1
-                    ++parentRuleIndex;
-                }
-                result.add(r);
-            }
-            result.addAll(parentRules.subList(parentRuleIndex, parentRules.size()));
-            return result;
+            return ruleSet;
         } catch (final Exception e) {
             throw new OrdinalsException("XML parse error " + locale, e);
         }
