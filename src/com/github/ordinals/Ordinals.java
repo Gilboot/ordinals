@@ -21,7 +21,7 @@ public final class Ordinals {
 
     private static volatile boolean go = true;
 
-    enum Command {
+    private enum Command {
         RULES {
             @Override void execute(final String... args) {
                 if (args.length != 1) {
@@ -64,7 +64,7 @@ public final class Ordinals {
                 }
                 Arrays.stream(values())
                     .sorted()
-                    .filter(c -> !(c.equals(NULL) || c.equals(UNKNOWN)))
+                    .filter(c -> ! (c.equals(NULL) || c.equals(UNKNOWN)))
                     .forEach(c -> println("%s", c.name().toLowerCase()));
             }
         },
@@ -101,7 +101,7 @@ public final class Ordinals {
         }
 
         void usage(final String argumentDescription) {
-            println("usage: %s %s", this.toString().toLowerCase(), argumentDescription);
+            println("usage: %s %s", toString().toLowerCase(), argumentDescription);
         }
 
         abstract void execute(String... args);
@@ -124,9 +124,9 @@ public final class Ordinals {
 
         while (go) {
             console.printf(prompt.get());
-            final Optional<String> line = Optional.ofNullable(console.readLine());
+            final Optional<String> l = Optional.ofNullable(console.readLine());
             try {
-                eval.accept(line.isPresent() ? line.get().split("\\s+") : new String[] { "exit", BREAK_CHARACTER });
+                eval.accept(l.isPresent() ? l.get().split("\\s+") : new String[] { "exit", BREAK_CHARACTER });
             } catch (final RuntimeException e) {
                 console.printf("error: %s%s", e.getMessage(), EOL);
             }
