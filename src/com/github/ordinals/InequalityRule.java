@@ -37,7 +37,8 @@ public class InequalityRule extends Rule{
 
     @Override
     public boolean equals(Object o) {
-        return super.equals(o) && less == ((InequalityRule) o).less && more == ((InequalityRule) o).more;
+        final InequalityRule other = InequalityRule.class.cast(o);
+        return super.equals(o) && less == other.less && more == other.more;
     }
 
     @Override

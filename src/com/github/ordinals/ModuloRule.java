@@ -1,5 +1,7 @@
 package com.github.ordinals;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
+
 import java.util.Objects;
 
 final class ModuloRule extends Rule {
@@ -30,7 +32,8 @@ final class ModuloRule extends Rule {
 
     @Override
     public boolean equals(Object o) {
-        return super.equals(o) && remainder == ((ModuloRule) o).remainder && modulus == ((ModuloRule) o).modulus;
+        final ModuloRule other = ModuloRule.class.cast(o);
+        return super.equals(o) && remainder == other.remainder && modulus == other.modulus;
     }
 
     @Override

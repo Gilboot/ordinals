@@ -50,7 +50,7 @@ abstract class Rule implements Comparable<Rule> {
     @Override
     public boolean equals(Object o) {
         if(!(o instanceof Rule)) return false;
-        Rule other = (Rule) o;
+        Rule other = Rule.class.cast(o);
         return  (precedence == other.precedence) &&
                 (shortSuffix == null ||  shortSuffix.equals(other.shortSuffix)) &&
                 (longSuffix == null || longSuffix.equals(other.longSuffix)) &&
