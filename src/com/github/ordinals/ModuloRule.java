@@ -1,7 +1,5 @@
 package com.github.ordinals;
 
-import com.sun.org.apache.xpath.internal.operations.Mod;
-
 import java.util.Objects;
 
 final class ModuloRule extends Rule {
