@@ -3,16 +3,22 @@ package com.github.ordinals;
 import java.util.Objects;
 
 abstract class Rule implements Comparable<Rule> {
+    private final Gender gender;
+    private final String longSuffix;
+    private final Plural plural;
     private final int    precedence;
     private final String shortSuffix;
-    private final String longSuffix;
-    private final Gender gender;
 
-    Rule(final int precedence, final String shortSuffix, final String longSuffix, final Gender gender) {
+    /**
+     * Constructor for rule objects
+     * All parameters organized alphabetically
+     */
+    Rule(final Gender gender, final String longSuffix, final Plural plural, final int precedence, final String shortSuffix) {
+        this.gender      = gender;
+        this.longSuffix  = longSuffix;
+        this.plural      = plural;
         this.precedence  = precedence;
         this.shortSuffix = shortSuffix;
-        this.longSuffix  = longSuffix;
-        this.gender      = gender;
     }
 
     abstract boolean matches(int i);
@@ -51,15 +57,20 @@ abstract class Rule implements Comparable<Rule> {
     public boolean equals(Object o) {
         if(!(o instanceof Rule)) return false;
         Rule other = Rule.class.cast(o);
-        return  (precedence == other.precedence) &&
-                (shortSuffix == null ||  shortSuffix.equals(other.shortSuffix)) &&
-                (longSuffix == null || longSuffix.equals(other.longSuffix)) &&
-                (gender == null || gender.equals(other.gender));
+        return  (precedence  == other.precedence) &&
+                (shortSuffix == null || shortSuffix.equals(other.shortSuffix)) &&
+                (longSuffix  == null || longSuffix.equals(other.longSuffix)) &&
+                (plural      == null || plural.equals(other.plural)) &&
+                (gender      == null || gender.equals(other.gender));
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(precedence, shortSuffix, longSuffix, gender);
+    }
+
+    public Plural getPlural() {
+        return plural;
     }
 }
 

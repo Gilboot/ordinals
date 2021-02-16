@@ -15,6 +15,8 @@ public enum Plural {
                     return PLURAL;
                 case "n":
                     return NEUTRAL;
+                case "":
+                    return null;
                 default:
                     throw new RuntimeException("unexpected plurality: " + p);
             }

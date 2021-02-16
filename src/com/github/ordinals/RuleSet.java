@@ -1,7 +1,6 @@
 package com.github.ordinals;
 
 import java.util.*;
-import java.util.function.Supplier;
 
 
 /**
@@ -96,17 +95,78 @@ public class RuleSet {
      * @param value denotes value
      */
     public void addRule(String end, String gender, String join, String longSuffix, String less, String modulus, String more, String plural, String precedence, String remainder, String shortSuffix, String type, String value) {
-        /*String finalType = type;
-        final Supplier<Rule> ruleGenerator = () -> {
-            switch (finalType) {
+           /* switch (finalType) {
                 case TOKEN_TYPE_EXACT:      return new ExactRule(precedence, value, shortSuffix, longSuffix, gender);
                 case TOKEN_TYPE_MODULO:     return new ModuloRule(precedence, remainder, modulus, shortSuffix, longSuffix, gender);
                 case TOKEN_TYPE_INEQUALITY: return new InequalityRule(precedence, shortSuffix, longSuffix, gender, less, more);
                 case TOKEN_TYPE_ENDS_WITH:  return new EndsWithRule(precedence, shortSuffix, longSuffix, gender, end);
                 default: throw new OrdinalsException("parse error: unrecognized type \"" + type + "\" for rule with precedence " + precedence);
-            }
-        };
+            } */
+    }
 
-         */
+
+      /**
+     * Method for adding an exact rule to the RuleSet. 
+     * All parameters are @{@code String} objects organized in alphabetical order.
+     * @param end Property for {@code EndsWithRule}
+     * @param gender denotes {@code Gender}
+     * @param join denotes {@code Join}
+     * @param longSuffix value of longSuffix
+     * @param less Property for {@code InequalityRule}
+     * @param modulus Property for {@code ModulusRule}
+     * @param more Property for {@code InequalityRule}
+     * @param plural denotes for {@code Plural}
+     * @param precedence denotes precedence
+     * @param shortSuffix denotes shortSuffix
+     * @param value denotes value
+     */
+    public void addExactRule(String gender, String longSuffix, String plural, String precedence, String shortSuffix, String value) {
+        testNotNull (longSuffix,  "Long Suffix");
+        testNotBlank(precedence,  "Precedence");
+        testNotNull (shortSuffix, "Short Suffix");
+        testNotBlank(value,       "Value");
+        testNotNull (gender,      "Gender");
+        testNotNull (plural,      "Plural");
+
+        rules.add(new ExactRule(
+                Gender.getGenderOf(gender), longSuffix,  Plural.getPluralOf(plural), toInt(precedence), shortSuffix, toInt(value)));
+    }
+
+
+    /**
+     * Converts a string to an integer
+     * @param number The string representation of a number 
+     * @return integer representation of the number
+     */
+    static int toInt(String number) {
+        testNotNull(number, "Number as string"); 
+        return Integer.parseInt(number);
+    }
+
+    /**
+     * Check whether a given object is not null
+     * If its null, throw an error
+     * @param o the object to check
+     * @param field the field we are validating
+     * @throws OrdinalsException
+     */
+    static void testNotNull(Object o, String field) throws OrdinalsException {
+        if(o == null) {
+            throw new OrdinalsException(field + " can not be null");
+        }
+    }
+
+    /**
+     * Check whether a given String is not blank
+     * If its blank throw an error
+     * @param s, the String to check
+     * @param field the field we are validating
+     * @throws OrdinalsException
+     */
+    static void testNotBlank(String s, String field) throws OrdinalsException {
+        testNotNull(s, field);
+        if("".equals(s)) {
+            throw new OrdinalsException(field + " can not be blank");
+        }
     }
 }

@@ -3,32 +3,43 @@ package com.github.ordinals;
 import java.util.Objects;
 
 final class ExactRule extends Rule {
-    final int ordinal;
+    final int value;
 
-    ExactRule(final int precedence, final int ordinal, final String suffix, final String fullName, final Gender gender) {
-        super(precedence, suffix, fullName, gender);
-        this.ordinal = ordinal;
+    /**
+     * Constructor for ExactRule
+     * All parameters organized alphabetically
+     */
+    ExactRule(
+            final Gender gender,
+            final String longSuffix,
+            final Plural plural,
+            final int    precedence,
+            final String shortSuffix,
+            final int    value
+    ) {
+        super(gender, longSuffix, plural, precedence, shortSuffix);
+        this.value = value;
     }
 
     @Override boolean matches(final int i) {
-        return ordinal == i;
+        return value == i;
     }
 
     public int getValue() {
-        return ordinal;
+        return value;
     }
 
     @Override String ruleToString() {
-        return "equals to " + ordinal;
+        return "equals to " + value;
     }
 
     @Override
     public boolean equals(Object o) {
-        return super.equals(o) && ordinal == ((ExactRule) o).ordinal;
+        return super.equals(o) && value == ((ExactRule) o).value;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), ordinal);
+        return Objects.hash(super.hashCode(), value);
     }
 }
