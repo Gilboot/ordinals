@@ -96,7 +96,7 @@ final class XMLParser {
             String join            = getAttribute         (rulesElement, TOKEN_JOIN);
             String plural          = getAttribute         (rulesElement, TOKEN_PLURAL);
 
-            ruleSet.setProperties(locale, join, shortSuffix, longSuffix, gender, plural);
+            ruleSet.setProperties(gender, join, locale, longSuffix, plural, shortSuffix);
 
             // read all of the rules, rules can appear in any order
             final NodeList nodeList = doc.getElementsByTagName(TOKEN_RULE);

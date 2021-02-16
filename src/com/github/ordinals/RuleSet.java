@@ -7,12 +7,12 @@ import java.util.*;
  * Data structure for rules obtained from a single xml file
  */
 public class RuleSet {
-    private Locale          locale;
-    private Join            join;
-    private String          shortSuffix;
-    private String          longSuffix;
     private Gender          gender;
+    private Join            join;
+    private Locale          locale;
+    private String          longSuffix;
     private Plural          plural;
+    private String          shortSuffix;
     final private Set<Rule> rules = new HashSet<>();
 
 
@@ -34,9 +34,11 @@ public class RuleSet {
      * @param shortSuffix value of shortSuffix
      */
     public void setProperties(String gender, String join, String locale, String longSuffix, String plural, String shortSuffix) {
-        this.locale      = Locale.forLanguageTag(locale);
         this.join        = Join.getJoinOf(join);
         this.shortSuffix = shortSuffix;
+
+        // Wrong method for finding locale, works only for locales with dashes not underscore ie. en-US not en_US
+        this.locale      = Locale.forLanguageTag(locale);
         this.longSuffix  = longSuffix;
         this.gender      = Gender.getGenderOf(gender);
         this.plural      = Plural.getPluralOf(plural);
@@ -104,9 +106,9 @@ public class RuleSet {
     public void addInequalityRule(String gender, String join, String less, String longSuffix, String more, String plural, String precedence, String shortSuffix) {
         testNotNull (gender,      "Gender");
         testNotNull (join,        "Join");
-        testNotBlank(less,        "Less");
-        testNotNull(longSuffix,  "Long Suffix");
-        testNotBlank(more,        "More");
+        testNotNull(less,         "Less");
+        testNotNull(longSuffix,   "Long Suffix");
+        testNotNull(more,         "More");
         testNotNull (plural,      "Plural");
         testNotBlank(precedence,  "Precedence");
         testNotNull (shortSuffix, "Short Suffix");
@@ -206,7 +208,7 @@ public class RuleSet {
      */
     static int toInt(String number) {
         testNotNull(number, "Number as string"); 
-        return Integer.parseInt(number);
+        return ("".equals(number) ? 0 : Integer.parseInt(number));
     }
 
     /**
@@ -235,5 +237,9 @@ public class RuleSet {
         if("".equals(s)) {
             throw new OrdinalsException(field + " can not be blank");
         }
+    }
+
+    public Set<Rule> getRules() {
+        return rules;
     }
 }

@@ -25,7 +25,8 @@ public final class OrdinalsFactory {
     }
 
     private OrdinalsFactory(final Locale locale) {
-        this.rules.addAll(new XMLParser().parse(locale));
+        // this.rules.addAll(new XMLParser().parse(locale));
+        this.rules.addAll(new RuleSetOwner(locale).getAllRules());
     }
 
     public List<Rule> getRules() {

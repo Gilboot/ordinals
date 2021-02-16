@@ -1,12 +1,11 @@
 package com.github.ordinals;
 
-import java.util.Locale;
-import java.util.Optional;
+import java.util.*;
 
 
 /**
- * Contains rules defined by the country and those defined by the language
- * as obtained from the locale
+ * Contains two pairs of rules. Rules defined by the country and rules defined by the language
+ * as obtained from the locale.
  */
 public class RuleSetOwner {
 
@@ -18,17 +17,27 @@ public class RuleSetOwner {
         String country  = locale.getCountry();
         String language = locale.getLanguage();
 
-        languageRuleSet = new XMLParser().parse(language);
-        countryRuleSet  = new XMLParser().parse(country);
-
+        languageRuleSet = "".equals(language) ? new RuleSet() : new XMLParser().parse(language);
+        countryRuleSet  = "".equals(country) ? new RuleSet() : new XMLParser().parse(locale.toString());
     }
 
     Rule getMatchingRule(int value) {
         Optional<Rule> match = languageRuleSet.getMatchingRule(value);
-        if(match.isEmpty()) {
+        if(! match.isPresent()) {
             match = countryRuleSet.getMatchingRule(value);
         }
-        return match.get();
+        return match.orElse(null);
+    }
+
+    /**
+     * Returns a list of all rules defined for the locale
+     * @return rules
+     */
+    List<Rule> getAllRules() {
+        Set<Rule> allRules = new HashSet<>();
+        allRules.addAll(languageRuleSet.getRules());
+        allRules.addAll(countryRuleSet.getRules());
+        return new ArrayList<>(allRules);
     }
     
 }

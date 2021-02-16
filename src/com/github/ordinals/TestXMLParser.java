@@ -7,6 +7,6 @@ import java.util.Locale;
  */
 public final class TestXMLParser {
     public static void main(final String... args) {
-        new XMLParser().parse(Locale.US).forEach(System.out::println);
+        new RuleSetOwner(Locale.US).getAllRules().forEach(System.out::println);
     }
 }
