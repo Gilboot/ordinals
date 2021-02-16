@@ -25,28 +25,6 @@ public class RuleSet {
 
 
     /**
-     * Constructor for creating RuleSet that takes arguments.
-     * @param locale a string to denote the locale
-     * @param join a string to denote the join policy
-     * @param shortSuffix denotes short suffix eg "st"
-     * @param longSuffix denotes long suffix eg "first"
-     * @param gender a string to denote gender
-     * @param plural a string to denote plurality
-     */
-    public RuleSet(String locale, String join, String shortSuffix, String longSuffix, String gender, String plural, List<Rule> rules) {
-        this.locale      = Locale.forLanguageTag(locale);
-        this.join        = Join.getJoinOf(join);
-        this.shortSuffix = shortSuffix;
-        this.longSuffix  = longSuffix;
-        this.gender      = Gender.getGenderOf(gender);
-        this.plural      = Plural.getPluralOf(plural);
-
-        // Add rules
-        this.rules.addAll(rules);
-    }
-
-
-    /**
      * Method for adding properties of a RuleSet. All parameters are @{@code String} objects organized in alphabetical order.
      * @param gender denotes {@Code Gender}
      * @param join denotes {@code Join}
@@ -63,33 +41,6 @@ public class RuleSet {
         this.gender      = Gender.getGenderOf(gender);
         this.plural      = Plural.getPluralOf(plural);
     }
-
-    /**
-     * Method for adding a single rule to a RuleSet. All parameters are @{@code String} objects organized in alphabetical order.
-     * @param end Property for {@code EndsWithRule}
-     * @param gender denotes {@code Gender}
-     * @param join denotes {@code Join}
-     * @param longSuffix value of longSuffix
-     * @param less Property for {@code InequalityRule}
-     * @param modulus Property for {@code ModulusRule}
-     * @param more Property for {@code InequalityRule}
-     * @param plural denotes for {@code Plural}
-     * @param precedence denotes precedence
-     * @param remainder property for {@code ModulusRule}
-     * @param shortSuffix denotes shortSuffix
-     * @param type denotes type
-     * @param value denotes value
-     */
-    public void addRule(String end, String gender, String join, String longSuffix, String less, String modulus, String more, String plural, String precedence, String remainder, String shortSuffix, String type, String value) {
-           /* switch (finalType) {
-                case TOKEN_TYPE_EXACT:      return new ExactRule(precedence, value, shortSuffix, longSuffix, gender);
-                case TOKEN_TYPE_MODULO:     return new ModuloRule(precedence, remainder, modulus, shortSuffix, longSuffix, gender);
-                case TOKEN_TYPE_INEQUALITY: return new InequalityRule(precedence, shortSuffix, longSuffix, gender, less, more);
-                case TOKEN_TYPE_ENDS_WITH:  return new EndsWithRule(precedence, shortSuffix, longSuffix, gender, end);
-                default: throw new OrdinalsException("parse error: unrecognized type \"" + type + "\" for rule with precedence " + precedence);
-            } */
-    }
-
 
     /**
      * Method for adding an ends with rule to the RuleSet. 
@@ -112,7 +63,7 @@ public class RuleSet {
         testNotNull (shortSuffix, "Short Suffix");
 
         rules.add(new EndsWithRule(
-                toInt(end), Gender.getGenderOf(gender), Join.getJoinOf(join), longSuffix,  Plural.getPluralOf(plural), toInt(precedence), shortSuffix));
+                toInt(end), calculateGender(gender), calculateJoin(join), calculateLongSuffix(longSuffix),  calculatePlural(plural), toInt(precedence), calculateShortSuffix(shortSuffix)));
     }
 
     /**
@@ -135,8 +86,9 @@ public class RuleSet {
         testNotNull (plural,      "Plural");
         testNotNull (join,        "Join");
 
+        
         rules.add(new ExactRule(
-                Gender.getGenderOf(gender), Join.getJoinOf(join), longSuffix,  Plural.getPluralOf(plural), toInt(precedence), shortSuffix, toInt(value)));
+                calculateGender(gender), calculateJoin(join), calculateLongSuffix(longSuffix),  calculatePlural(plural), toInt(precedence), calculateShortSuffix(shortSuffix), toInt(value)));
     }
 
       /**
@@ -160,7 +112,7 @@ public class RuleSet {
         testNotNull (shortSuffix, "Short Suffix");
 
         rules.add(new InequalityRule(
-                Gender.getGenderOf(gender), Join.getJoinOf(join), toInt(less), longSuffix, toInt(more), Plural.getPluralOf(plural), toInt(precedence), shortSuffix));
+                calculateGender(gender), calculateJoin(join), toInt(less), calculateLongSuffix(longSuffix), toInt(more), calculatePlural(plural), toInt(precedence), calculateShortSuffix(shortSuffix)));
     }
 
     /**
@@ -186,8 +138,67 @@ public class RuleSet {
         testNotNull (shortSuffix, "Short Suffix");
 
         rules.add(new ModuloRule(
-                Gender.getGenderOf(gender), Join.getJoinOf(join), longSuffix, toInt(modulus), Plural.getPluralOf(plural), toInt(precedence), toInt(remainder), shortSuffix));
+                calculateGender(gender), calculateJoin(join), calculateLongSuffix(longSuffix), toInt(modulus), calculatePlural(plural), toInt(precedence), toInt(remainder), calculateShortSuffix(shortSuffix)));
     }
+
+    /**
+     * Gets the rule matching the value and of smallest precedence
+     * @param value
+     */
+    public Optional<Rule> getMatchingRule(int value) {
+        return rules.stream()
+            .filter(rule -> rule.matches(value))
+            .max(Comparator.comparing(Rule::getPrecedence));
+    }
+
+
+    /**
+     * Computes the equivalent Gender from the gender string else returns the Gender defined on the RuleSet object
+     * @param gender
+     * @return Gender
+     */
+    public Gender calculateGender(String gender) {
+        return (Gender.getGenderOf(gender) == null) ? this.gender : Gender.getGenderOf(gender);
+    }
+
+    /**
+     * Computes the equivalent Join from the join string else returns the Join defined on the RuleSet object
+     * @param join
+     * @return Join
+     */
+    public Join calculateJoin(String join) {
+        return (Join.getJoinOf(join) == null) ? this.join : Join.getJoinOf(join);
+    }
+
+    /**
+     * Calculate longSuffix. If longSuffix is blank, return the longSuffix defined on the RuleSet 
+     * @param longSuffix
+     * @return longSuffix
+     */
+    public String calculateLongSuffix(String longSuffix) {
+        return ("".equals(longSuffix)) ? this.longSuffix : longSuffix;
+    }
+    
+    /**
+     * Computes the equivalent Plural from the plural string else returns the Plural defined on the RuleSet object
+     * @param plural
+     * @return Plural
+     */
+    public Plural calculatePlural(String plural) {
+        return (Plural.getPluralOf(plural) == null) ? this.plural : Plural.getPluralOf(plural);
+    }
+
+    /**
+     * Calculate shortSuffix. If shortSuffix is blank, return the shortSuffix defined on the RuleSet 
+     * @param shortSuffix
+     * @return shortSuffix
+     */
+    public String calculateShortSuffix(String shortSuffix) {
+        return ("".equals(shortSuffix)) ? this.shortSuffix : shortSuffix;
+    }
+
+
+
     /**
      * Converts a string to an integer
      * @param number The string representation of a number 

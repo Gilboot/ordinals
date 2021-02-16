@@ -1,6 +1,7 @@
 package com.github.ordinals;
 
 import java.util.Locale;
+import java.util.Optional;
 
 
 /**
@@ -23,11 +24,11 @@ public class RuleSetOwner {
     }
 
     Rule getMatchingRule(int value) {
-        Rule match = languageRuleSet.getMatchingRule(value);
-        if(match == null) {
+        Optional<Rule> match = languageRuleSet.getMatchingRule(value);
+        if(match.isEmpty()) {
             match = countryRuleSet.getMatchingRule(value);
         }
-        return match;
+        return match.get();
     }
     
 }
