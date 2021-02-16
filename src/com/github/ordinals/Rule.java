@@ -4,6 +4,7 @@ import java.util.Objects;
 
 abstract class Rule implements Comparable<Rule> {
     private final Gender gender;
+    private final Join join;
     private final String longSuffix;
     private final Plural plural;
     private final int    precedence;
@@ -13,8 +14,9 @@ abstract class Rule implements Comparable<Rule> {
      * Constructor for rule objects
      * All parameters organized alphabetically
      */
-    Rule(final Gender gender, final String longSuffix, final Plural plural, final int precedence, final String shortSuffix) {
+    Rule(final Gender gender, final Join join, final String longSuffix, final Plural plural, final int precedence, final String shortSuffix) {
         this.gender      = gender;
+        this.join        = join;
         this.longSuffix  = longSuffix;
         this.plural      = plural;
         this.precedence  = precedence;
@@ -71,6 +73,10 @@ abstract class Rule implements Comparable<Rule> {
 
     public Plural getPlural() {
         return plural;
+    }
+
+    public Join getJoin() {
+        return join;
     }
 }
 

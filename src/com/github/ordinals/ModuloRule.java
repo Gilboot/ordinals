@@ -8,6 +8,7 @@ final class ModuloRule extends Rule {
 
     ModuloRule(
         final Gender gender,
+        final Join   join,
         final String longSuffix,
         final int    modulus,
         final Plural plural,
@@ -15,7 +16,7 @@ final class ModuloRule extends Rule {
         final int    remainder,
         final String shortSuffix
     ) {
-        super(gender, longSuffix, plural, precedence, shortSuffix);
+        super(gender, join, longSuffix, plural, precedence, shortSuffix);
         this.remainder = remainder;
         this.modulus = modulus;
     }

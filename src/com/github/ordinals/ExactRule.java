@@ -11,13 +11,14 @@ final class ExactRule extends Rule {
      */
     ExactRule(
             final Gender gender,
+            final Join   join,
             final String longSuffix,
             final Plural plural,
             final int    precedence,
             final String shortSuffix,
             final int    value
     ) {
-        super(gender, longSuffix, plural, precedence, shortSuffix);
+        super(gender, join, longSuffix, plural, precedence, shortSuffix);
         this.value = value;
     }
 

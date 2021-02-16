@@ -10,14 +10,15 @@ final class EndsWithRule extends Rule {
     final int endsWith;
 
     EndsWithRule(
-        final int endsWith,
+        final int    endsWith,
         final Gender gender,
+        final Join   join,
         final String longSuffix,
         final Plural plural,
         final int    precedence,
         final String shortSuffix
     ) {
-        super(gender, longSuffix, plural, precedence, shortSuffix);
+        super(gender, join, longSuffix, plural, precedence, shortSuffix);
         this.endsWith = endsWith;
     }
 

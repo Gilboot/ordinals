@@ -15,11 +15,6 @@ public class RuleSet {
     private Plural          plural;
     final private Set<Rule> rules = new HashSet<>();
 
-    private static final String
-        TOKEN_TYPE_ENDS_WITH  = "ends_with",
-        TOKEN_TYPE_EXACT      = "exact",
-        TOKEN_TYPE_INEQUALITY = "inequality",
-        TOKEN_TYPE_MODULO     = "modulo";
 
 
     /**
@@ -70,15 +65,6 @@ public class RuleSet {
     }
 
     /**
-     * Method for adding a rule. All parameters are @{@code String} objects organized in alphabetical order.
-     * @param precedence
-     * @param value
-     * @param shortSuffix
-     * @param gender
-     * @param plural
-     */
-
-    /**
      * Method for adding a single rule to a RuleSet. All parameters are @{@code String} objects organized in alphabetical order.
      * @param end Property for {@code EndsWithRule}
      * @param gender denotes {@code Gender}
@@ -105,34 +91,103 @@ public class RuleSet {
     }
 
 
-      /**
+    /**
+     * Method for adding an ends with rule to the RuleSet. 
+     * All parameters are @{@code String} objects organized in alphabetical order.
+     * @param end         Property for {@code EndsWithRule}
+     * @param gender      denotes {@code Gender}
+     * @param join        denotes {@code Join}
+     * @param longSuffix  value of longSuffix
+     * @param plural      denotes for {@code Plural}
+     * @param precedence  denotes precedence
+     * @param shortSuffix denotes shortSuffix
+     */
+    public void addEndsWithRule(String end, String gender, String join, String longSuffix, String plural, String precedence, String shortSuffix) {
+        testNotBlank(end,         "End");
+        testNotNull (gender,      "Gender");
+        testNotNull (join,        "Join");
+        testNotBlank(longSuffix,  "Long Suffix");
+        testNotNull (plural,      "Plural");
+        testNotBlank(precedence,  "Precedence");
+        testNotNull (shortSuffix, "Short Suffix");
+
+        rules.add(new EndsWithRule(
+                toInt(end), Gender.getGenderOf(gender), Join.getJoinOf(join), longSuffix,  Plural.getPluralOf(plural), toInt(precedence), shortSuffix));
+    }
+
+    /**
      * Method for adding an exact rule to the RuleSet. 
      * All parameters are @{@code String} objects organized in alphabetical order.
-     * @param end Property for {@code EndsWithRule}
-     * @param gender denotes {@code Gender}
-     * @param join denotes {@code Join}
-     * @param longSuffix value of longSuffix
-     * @param less Property for {@code InequalityRule}
-     * @param modulus Property for {@code ModulusRule}
-     * @param more Property for {@code InequalityRule}
-     * @param plural denotes for {@code Plural}
-     * @param precedence denotes precedence
+     * @param gender      denotes {@code Gender}
+     * @param join        denotes {@code Join}
+     * @param longSuffix  value of longSuffix
+     * @param plural      denotes for {@code Plural}
+     * @param precedence  denotes precedence
      * @param shortSuffix denotes shortSuffix
-     * @param value denotes value
+     * @param value       denotes value
      */
-    public void addExactRule(String gender, String longSuffix, String plural, String precedence, String shortSuffix, String value) {
+    public void addExactRule(String gender, String join, String longSuffix, String plural, String precedence, String shortSuffix, String value) {
         testNotNull (longSuffix,  "Long Suffix");
         testNotBlank(precedence,  "Precedence");
         testNotNull (shortSuffix, "Short Suffix");
         testNotBlank(value,       "Value");
         testNotNull (gender,      "Gender");
         testNotNull (plural,      "Plural");
+        testNotNull (join,        "Join");
 
         rules.add(new ExactRule(
-                Gender.getGenderOf(gender), longSuffix,  Plural.getPluralOf(plural), toInt(precedence), shortSuffix, toInt(value)));
+                Gender.getGenderOf(gender), Join.getJoinOf(join), longSuffix,  Plural.getPluralOf(plural), toInt(precedence), shortSuffix, toInt(value)));
     }
 
+      /**
+     * Method for adding an inequality rule to the RuleSet. 
+     * All parameters are @{@code String} objects organized in alphabetical order.
+     * @param gender      denotes {@code Gender}.
+     * @param join        denotes {@code Join}.
+     * @param longSuffix  value of longSuffix.
+     * @param plural      denotes for {@code Plural}.
+     * @param precedence  denotes precedence.
+     * @param shortSuffix denotes shortSuffix.
+     */
+    public void addInequalityRule(String gender, String join, String less, String longSuffix, String more, String plural, String precedence, String shortSuffix) {
+        testNotNull (gender,      "Gender");
+        testNotNull (join,        "Join");
+        testNotBlank(less,        "Less");
+        testNotNull(longSuffix,  "Long Suffix");
+        testNotBlank(more,        "More");
+        testNotNull (plural,      "Plural");
+        testNotBlank(precedence,  "Precedence");
+        testNotNull (shortSuffix, "Short Suffix");
 
+        rules.add(new InequalityRule(
+                Gender.getGenderOf(gender), Join.getJoinOf(join), toInt(less), longSuffix, toInt(more), Plural.getPluralOf(plural), toInt(precedence), shortSuffix));
+    }
+
+    /**
+     * Method for adding an modulo rule to the RuleSet. 
+     * All parameters are @{@code String} objects organized in alphabetical order.
+     * @param gender      denotes {@code Gender}.
+     * @param join        denotes {@code Join}.
+     * @param longSuffix  value of longSuffix.
+     * @param modulus     Property for {@code ModuloRule}
+     * @param plural      denotes for {@code Plural}.
+     * @param precedence  denotes precedence.
+     * @param remainder   Property for {@code ModuloRule}
+     * @param shortSuffix denotes shortSuffix.
+     */
+    public void addModuloRule(String gender, String join, String longSuffix, String modulus, String plural, String precedence, String remainder, String shortSuffix) {
+        testNotNull (gender,      "Gender");
+        testNotNull (join,        "Join");
+        testNotNull(longSuffix,  "Long Suffix");
+        testNotBlank(modulus,     "Modulus");
+        testNotNull (plural,      "Plural");
+        testNotBlank(precedence,  "Precedence");
+        testNotBlank(remainder,   "Remainder");
+        testNotNull (shortSuffix, "Short Suffix");
+
+        rules.add(new ModuloRule(
+                Gender.getGenderOf(gender), Join.getJoinOf(join), longSuffix, toInt(modulus), Plural.getPluralOf(plural), toInt(precedence), toInt(remainder), shortSuffix));
+    }
     /**
      * Converts a string to an integer
      * @param number The string representation of a number 
@@ -157,8 +212,9 @@ public class RuleSet {
     }
 
     /**
-     * Check whether a given String is not blank
-     * If its blank throw an error
+     * Check whether a given String is not blank.
+     * Use it for fields that can not be blank 
+     * If tje field is blank an error is thrown
      * @param s, the String to check
      * @param field the field we are validating
      * @throws OrdinalsException

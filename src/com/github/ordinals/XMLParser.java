@@ -33,6 +33,10 @@ final class XMLParser {
         TOKEN_RULES           = "rules",
         TOKEN_SHORT_SUFFIX    = "short_suffix",
         TOKEN_TYPE            = "type",
+        TOKEN_TYPE_ENDS_WITH  = "ends_with",
+        TOKEN_TYPE_EXACT      = "exact",
+        TOKEN_TYPE_INEQUALITY = "inequality",
+        TOKEN_TYPE_MODULO     = "modulo",
         TOKEN_VALUE           = "value";
 
     /**
@@ -105,21 +109,41 @@ final class XMLParser {
                         throw new OrdinalsException("expected " + TOKEN_RULE + " element, not " + ruleElementName + " for locale " + locale);
                     }
 
-                    shortSuffix             = getAttribute(ruleElement, TOKEN_SHORT_SUFFIX);
-                    longSuffix              = getAttribute(ruleElement, TOKEN_LONG_SUFFIX);
                     gender                  = getAttribute(ruleElement, TOKEN_GENDER);
-                    plural                  = getAttribute(ruleElement, TOKEN_PLURAL);
                     join                    = getAttribute(ruleElement, TOKEN_JOIN);
+                    longSuffix              = getAttribute(ruleElement, TOKEN_LONG_SUFFIX);
+                    plural                  = getAttribute(ruleElement, TOKEN_PLURAL);
+                    shortSuffix             = getAttribute(ruleElement, TOKEN_SHORT_SUFFIX);
 
+
+                    final String end        = getAttribute(ruleElement, TOKEN_END);
+                    final String less       = getAttribute(ruleElement, TOKEN_LESS);
+                    final String modulus    = getAttribute(ruleElement, TOKEN_MODULUS);
+                    final String more       = getAttribute(ruleElement, TOKEN_MORE);
                     final String precedence = getAttribute(ruleElement, TOKEN_PRECEDENCE); // precedence must be explicitly written, no default
+                    final String remainder  = getAttribute(ruleElement, TOKEN_REMAINDER);
                     final String type       = getAttribute(ruleElement, TOKEN_TYPE);
                     final String value      = getAttribute(ruleElement, TOKEN_VALUE);
-                    final String remainder  = getAttribute(ruleElement, TOKEN_REMAINDER);
-                    final String modulus    = getAttribute(ruleElement, TOKEN_MODULUS);
-                    final String less       = getAttribute(ruleElement, TOKEN_LESS);
-                    final String more       = getAttribute(ruleElement, TOKEN_MORE);
-                    final String end        = getAttribute(ruleElement, TOKEN_END);
 
+                    switch (type) {
+                        case TOKEN_TYPE_EXACT:     
+                            ruleSet.addExactRule(gender, join, longSuffix, plural, precedence, shortSuffix, value);
+                            break;
+                            
+                        case TOKEN_TYPE_ENDS_WITH:  
+                            ruleSet.addEndsWithRule(end, gender, join, longSuffix, plural, precedence, shortSuffix);
+                            break;
+
+                        case TOKEN_TYPE_INEQUALITY:
+                            ruleSet.addInequalityRule(gender, join, less, longSuffix, more, plural, precedence, shortSuffix);
+                            break;
+
+                        case TOKEN_TYPE_MODULO:     
+                            ruleSet.addModuloRule(gender, join, longSuffix, modulus, plural, precedence, remainder, shortSuffix);
+                            break;   
+
+                        default: throw new OrdinalsException("parse error: unrecognized type \"" + type + "\" for rule with precedence " + precedence);
+                    } 
                     // All parameters are String objects organized in alphabetical order.
                     ruleSet.addRule(end, gender, join, longSuffix, less, modulus, more, plural, precedence, remainder, shortSuffix, type, value);
                 } else {
