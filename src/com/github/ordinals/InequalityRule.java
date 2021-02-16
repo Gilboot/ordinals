@@ -1,6 +1,8 @@
 package com.github.ordinals;
 
 
+import java.util.Objects;
+
 /**
  * Rule that tests whether a given number is less than what the rule species as less or more that what
  * the rule specifies as more.
@@ -35,21 +37,12 @@ public class InequalityRule extends Rule{
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-
-        InequalityRule that = (InequalityRule) o;
-
-        if (less != that.less) return false;
-        return more == that.more;
+        final InequalityRule other = InequalityRule.class.cast(o);
+        return super.equals(o) && less == other.less && more == other.more;
     }
 
     @Override
     public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + less;
-        result = 31 * result + more;
-        return result;
+        return Objects.hash(super.hashCode(), less, more);
     }
 }

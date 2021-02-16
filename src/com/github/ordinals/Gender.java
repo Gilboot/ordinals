@@ -1,5 +1,7 @@
 package com.github.ordinals;
 
+import java.util.Objects;
+
 public enum Gender {
     NEUTRAL, MASCULINE, FEMININE;
 
