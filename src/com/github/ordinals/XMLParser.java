@@ -2,6 +2,7 @@ package com.github.ordinals;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -168,6 +169,8 @@ final class XMLParser {
                     throw new OrdinalsException("unexpected node type: " + ruleNode.getNodeType());
                 }
             }
+
+            Collections.sort(rules);
 
             // override parent rules with child rules producing a sorted list (modified merge sort, choosing child rule if there is a precedence conflict)
             final List<Rule> result = new ArrayList<>();
