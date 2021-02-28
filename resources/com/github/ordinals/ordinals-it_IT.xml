@@ -49,22 +49,26 @@
     <rule type="exact" precedence="101" gender="m" value="10" long_suffix="decimo" />
     <rule type="exact" precedence="102" gender="f" value="10" long_suffix="decima" />
 
+    <!--    Between 11 and 20 -->
+    <!--    To prevent rules meant for 20 and beyond from targeting this range -->
 
-    <!--    Beyond 10 -->
+    <rule type="inequality" less="21" more="10" precedence="201" gender="m" long_suffix="esimo" join="minus_one" />
+    <rule type="inequality" less="21" more="10" precedence="202" gender="f" long_suffix="esima" join="minus_one" />
 
+    <!--    Beyond 20 -->
     <!--    Must come last in precedence -->
 
     <!--    3 modulus 10, also note that full name of cardinal ends with "tré" -->
-    <rule type="modulo" remainder="3" modulus="10" precedence="201" gender="m" long_suffix="treesimo" join="minus_three" />
-    <rule type="modulo" remainder="3" modulus="10" precedence="202" gender="f" long_suffix="treesima" join="minus_three" />
+    <rule type="modulo" remainder="3" modulus="10" precedence="301" gender="m" long_suffix="treesimo" join="minus_three" />
+    <rule type="modulo" remainder="3" modulus="10" precedence="302" gender="f" long_suffix="treesima" join="minus_three" />
 
     <!--    6 modulus 10, also note that full name of cardinal ends with "sei" -->
-    <rule type="modulo" remainder="6" modulus="10" precedence="301" gender="m" long_suffix="esimo" join="no_space" />
-    <rule type="modulo" remainder="6" modulus="10" precedence="302" gender="f" long_suffix="esima" join="no_space" />
+    <rule type="modulo" remainder="6" modulus="10" precedence="401" gender="m" long_suffix="esimo" join="no_space" />
+    <rule type="modulo" remainder="6" modulus="10" precedence="402" gender="f" long_suffix="esima" join="no_space" />
 
     <!--    Others -->
-    <rule type="inequality" more="10" precedence="401" gender="m" long_suffix="esimo" join="minus_one" />
-    <rule type="inequality" more="10" precedence="402" gender="f" long_suffix="esima" join="minus_one" />
+    <rule type="inequality" more="20" precedence="501" gender="m" long_suffix="esimo" join="minus_one" />
+    <rule type="inequality" more="20" precedence="502" gender="f" long_suffix="esima" join="minus_one" />
 
 
 </rules>
