@@ -54,13 +54,13 @@
 
     <!--    Must come last in precedence -->
 
-    <!--    Full name ends with "sei" -->
-    <rule type="full_name_ends_with" end="sei" precedence="201" gender="m" long_suffix="esimo" join="no_space" />
-    <rule type="full_name_ends_with" end="sei" precedence="202" gender="f" long_suffix="esima" join="no_space" />
+    <!--    3 modulus 10, also note that full name of cardinal ends with "tré" -->
+    <rule type="modulo" remainder="3" modulus="10" precedence="201" gender="m" long_suffix="treesimo" join="minus_three" />
+    <rule type="modulo" remainder="3" modulus="10" precedence="202" gender="f" long_suffix="treesima" join="minus_three" />
 
-    <!--    Full name ends with "tré" -->
-    <rule type="full_name_ends_with" end="tré" precedence="301" gender="m" long_suffix="treesimo" join="replace_end" />
-    <rule type="full_name_ends_with" end="tré" precedence="302" gender="f" long_suffix="treesima" join="replace_end" />
+    <!--    6 modulus 10, also note that full name of cardinal ends with "sei" -->
+    <rule type="modulo" remainder="6" modulus="10" precedence="301" gender="m" long_suffix="esimo" join="no_space" />
+    <rule type="modulo" remainder="6" modulus="10" precedence="302" gender="f" long_suffix="esima" join="no_space" />
 
     <!--    Others -->
     <rule type="inequality" more="10" precedence="401" gender="m" long_suffix="esimo" join="minus_one" />
