@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--SOURCE: https://www.thoughtco.com/italian-ordinal-numbers-2011379 -->
+
+<rules locale="it_IT" short_suffix_masc="o" short_suffix_fem="a" plural="n" join="replace">
+    <!--    1 -->
+    <rule type="exact" precedence="11" gender="m" plural="s" value="1" long_suffix="primo" />
+    <rule type="exact" precedence="12" gender="f" plural="s" value="1" long_suffix="prima" />
+    <rule type="exact" precedence="13" gender="m" plural="p" value="1" long_suffix="primi" />
+    <rule type="exact" precedence="14" gender="f" plural="p" value="1" long_suffix="prime" />
+
+    <!--    2 -->
+    <rule type="exact" precedence="21" gender="m" plural="s" value="2" long_suffix="secondo" />
+    <rule type="exact" precedence="22" gender="f" plural="s" value="2" long_suffix="secondi" />
+    <rule type="exact" precedence="23" gender="m" plural="p" value="2" long_suffix="seconda" />
+    <rule type="exact" precedence="24" gender="f" plural="p" value="2" long_suffix="seconde" />
+
+    <!--    3 -->
+    <rule type="exact" precedence="31" gender="m" plural="s" value="3" long_suffix="terzo" />
+    <rule type="exact" precedence="32" gender="f" plural="s" value="3" long_suffix="terzi" />
+    <rule type="exact" precedence="33" gender="m" plural="p" value="3" long_suffix="terza" />
+    <rule type="exact" precedence="34" gender="f" plural="p" value="3" long_suffix="terze" />
+
+    <!--    4 -->
+    <rule type="exact" precedence="41" gender="m" value="4" long_suffix="quarto" />
+    <rule type="exact" precedence="42" gender="f" value="4" long_suffix="quarta" />
+
+    <!--    5 -->
+    <rule type="exact" precedence="51" gender="m" value="5" long_suffix="quinto" />
+    <rule type="exact" precedence="52" gender="f" value="5" long_suffix="quinta" />
+
+    <!--    6 -->
+    <rule type="exact" precedence="61" gender="m" value="6" long_suffix="sesto" />
+    <rule type="exact" precedence="62" gender="f" value="6" long_suffix="sesta" />
+
+    <!--    7 -->
+    <rule type="exact" precedence="71" gender="m" value="7" long_suffix="settimo" />
+    <rule type="exact" precedence="72" gender="f" value="7" long_suffix="settima" />
+
+    <!--    8 -->
+    <rule type="exact" precedence="81" gender="m" value="8" long_suffix="ottavo" />
+    <rule type="exact" precedence="82" gender="f" value="8" long_suffix="ottava" />
+
+    <!--    9 -->
+    <rule type="exact" precedence="91" gender="m" value="9" long_suffix="nono" />
+    <rule type="exact" precedence="92" gender="f" value="9" long_suffix="nona" />
+
+    <!--    10 -->
+    <rule type="exact" precedence="101" gender="m" value="10" long_suffix="decimo" />
+    <rule type="exact" precedence="102" gender="f" value="10" long_suffix="decima" />
+
+
+    <!--    Beyond 10 -->
+
+    <!--    Must come last in precedence -->
+
+    <!--    Full name ends with "sei" -->
+    <rule type="full_name_ends_with" end="sei" precedence="201" gender="m" long_suffix="esimo" join="no_space" />
+    <rule type="full_name_ends_with" end="sei" precedence="202" gender="f" long_suffix="esima" join="no_space" />
+
+    <!--    Full name ends with "tré" -->
+    <rule type="full_name_ends_with" end="tré" precedence="301" gender="m" long_suffix="treesimo" join="replace_end" />
+    <rule type="full_name_ends_with" end="tré" precedence="302" gender="f" long_suffix="treesima" join="replace_end" />
+
+    <!--    Others -->
+    <rule type="inequality" more="10" precedence="401" gender="m" long_suffix="esimo" join="minus_one" />
+    <rule type="inequality" more="10" precedence="402" gender="f" long_suffix="esima" join="minus_one" />
+
+
+</rules>

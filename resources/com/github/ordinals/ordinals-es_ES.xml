@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--@see https://www.spanishdict.com/guide/ordinal-numbers-in-spanish -->
-<!--@see https://www.thoughtco.com/ordinal-numbers-in-spanish-3079591 -->
+
+<!--SOURCE: https://www.spanishdict.com/guide/ordinal-numbers-in-spanish -->
+<!--SOURCE: https://www.thoughtco.com/ordinal-numbers-in-spanish-3079591 -->
+
 <rules locale="es_ES" join="replace" type="recursive">
     <!--    1 -->
     <rule precedence="11" gender="m" plural="s" value="1" short_suffix="o" long_suffix="primer" />
