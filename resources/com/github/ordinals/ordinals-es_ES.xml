@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--@see https://www.spanishdict.com/guide/ordinal-numbers-in-spanish -->
+<!--@see https://www.thoughtco.com/ordinal-numbers-in-spanish-3079591 -->
+<rules locale="es_ES" join="replace" type="recursive">
+    <!--    1 -->
+    <rule precedence="11" gender="m" plural="s" value="1" short_suffix="o" long_suffix="primer" />
+    <rule precedence="12" gender="f" plural="s" value="1" short_suffix="a" long_suffix="primer" />
+    <rule precedence="13" gender="m" plural="p" value="1" short_suffix="o" long_suffix="primeros" />
+    <rule precedence="14" gender="f" plural="p" value="1" short_suffix="a" long_suffix="primeras" />
+
+    <!--    2 -->
+    <rule precedence="21" gender="m" plural="s" value="2" short_suffix="o" long_suffix="segundo" />
+    <rule precedence="22" gender="f" plural="s" value="2" short_suffix="a" long_suffix="segunda" />
+    <rule precedence="23" gender="m" plural="p" value="2" short_suffix="o" long_suffix="segundos" />
+    <rule precedence="24" gender="f" plural="p" value="2" short_suffix="a" long_suffix="segundas" />
+
+    <!--    3 -->
+    <rule precedence="31" gender="m" plural="s" value="3" short_suffix="o" long_suffix="tercer" />
+    <rule precedence="32" gender="f" plural="s" value="3" short_suffix="a" long_suffix="tercera" />
+    <rule precedence="33" gender="m" plural="p" value="3" short_suffix="o" long_suffix="tereros" />
+    <rule precedence="34" gender="f" plural="p" value="3" short_suffix="a" long_suffix="terceras" />
+
+    <!--    4 -->
+    <rule precedence="41" gender="m" plural="s" value="4" short_suffix="o" long_suffix="cuarto" />
+    <rule precedence="42" gender="f" plural="s" value="4" short_suffix="a" long_suffix="cuarta" />
+    <rule precedence="43" gender="m" plural="p" value="4" short_suffix="o" long_suffix="cuartas" />
+    <rule precedence="44" gender="f" plural="p" value="4" short_suffix="a" long_suffix="cuartos" />
+
+    <!--    5 -->
+    <rule precedence="51" gender="m" plural="s" value="5" short_suffix="o" long_suffix="quinto" />
+    <rule precedence="52" gender="f" plural="s" value="5" short_suffix="a" long_suffix="quinta" />
+    <rule precedence="53" gender="m" plural="p" value="5" short_suffix="o" long_suffix="quintos" />
+    <rule precedence="54" gender="f" plural="p" value="5" short_suffix="a" long_suffix="quintas" />
+
+    <!--    6 -->
+    <rule precedence="61" gender="m" plural="s" value="6" short_suffix="o" long_suffix="sexto" />
+    <rule precedence="62" gender="f" plural="s" value="6" short_suffix="a" long_suffix="sexta" />
+    <rule precedence="63" gender="m" plural="p" value="6" short_suffix="o" long_suffix="sextos" />
+    <rule precedence="64" gender="f" plural="p" value="6" short_suffix="a" long_suffix="sextas" />
+
+    <!--    7 -->
+    <rule precedence="71" gender="m" plural="s" value="7" short_suffix="o" long_suffix="séptimo" />
+    <rule precedence="72" gender="f" plural="s" value="7" short_suffix="a" long_suffix="séptima" />
+    <rule precedence="73" gender="m" plural="p" value="7" short_suffix="o" long_suffix="séptimos" />
+    <rule precedence="74" gender="f" plural="p" value="7" short_suffix="a" long_suffix="séptimas" />
+
+    <!--    8 -->
+    <rule precedence="81" gender="m" plural="s" value="8" short_suffix="o" long_suffix="octavo" />
+    <rule precedence="82" gender="f" plural="s" value="8" short_suffix="a" long_suffix="octava" />
+    <rule precedence="83" gender="m" plural="p" value="8" short_suffix="o" long_suffix="octavos" />
+    <rule precedence="84" gender="f" plural="p" value="8" short_suffix="a" long_suffix="octavas" />
+
+    <!--    9 -->
+    <rule precedence="91" gender="m" plural="s" value="9" short_suffix="o" long_suffix="noveno" />
+    <rule precedence="92" gender="f" plural="s" value="9" short_suffix="a" long_suffix="novena" />
+    <rule precedence="93" gender="m" plural="p" value="9" short_suffix="o" long_suffix="novenos" />
+    <rule precedence="94" gender="f" plural="p" value="9" short_suffix="a" long_suffix="novenas" />
+
+<!--    10 - 90 -->
+
+    <!--    10 -->
+    <rule precedence="101" gender="m" plural="n" value="10" short_suffix="o" long_suffix="décimo" />
+    <rule precedence="102" gender="f" plural="n" value="10" short_suffix="a" long_suffix="décima" />
+
+    <!--    20 -->
+    <rule precedence="201" gender="m" plural="n" value="20" short_suffix="o" long_suffix="vigésimo" />
+    <rule precedence="202" gender="f" plural="n" value="20" short_suffix="a" long_suffix="vigésima" />
+
+    <!--    30 -->
+    <rule precedence="301" gender="m" plural="n" value="30" short_suffix="o" long_suffix="trigésimo" />
+    <rule precedence="302" gender="f" plural="n" value="30" short_suffix="a" long_suffix="trigésima" />
+
+    <!--    40 -->
+    <rule precedence="401" gender="m" plural="n" value="40" short_suffix="o" long_suffix="cuadragésimo" />
+    <rule precedence="402" gender="f" plural="n" value="40" short_suffix="a" long_suffix="cuadragésima" />
+
+    <!--    50 -->
+    <rule precedence="501" gender="m" plural="n" value="50" short_suffix="o" long_suffix="quincuagésimo" />
+    <rule precedence="502" gender="f" plural="n" value="50" short_suffix="a" long_suffix="quincuagésima" />
+
+    <!--    60 -->
+    <rule precedence="601" gender="m" plural="n" value="60" short_suffix="o" long_suffix="sexagésimo" />
+    <rule precedence="602" gender="f" plural="n" value="60" short_suffix="a" long_suffix="sexagésima" />
+
+    <!--    70 -->
+    <rule precedence="701" gender="m" plural="n" value="70" short_suffix="o" long_suffix="septuagésimo" />
+    <rule precedence="702" gender="f" plural="n" value="70" short_suffix="a" long_suffix="septuagésima" />
+
+    <!--    80 -->
+    <rule precedence="801" gender="m" plural="n" value="80" short_suffix="o" long_suffix="octogésimo" />
+    <rule precedence="802" gender="f" plural="n" value="80" short_suffix="a" long_suffix="octogésima" />
+
+    <!--    90 -->
+    <rule precedence="901" gender="m" plural="n" value="90" short_suffix="o" long_suffix="nonagésimo" />
+    <rule precedence="902" gender="f" plural="n" value="90" short_suffix="a" long_suffix="nonagésima" />
+
+
+    <!--    100 - 900 -->
+
+    <!--    100 -->
+    <rule precedence="1001" gender="m" plural="n" value="100" short_suffix="o" long_suffix="centésimo" />
+    <rule precedence="1002" gender="f" plural="n" value="100" short_suffix="a" long_suffix="centésima" />
+
+    <!--    200 -->
+    <rule precedence="2001" gender="m" plural="n" value="200" short_suffix="o" long_suffix="ducentésimo" />
+    <rule precedence="2002" gender="f" plural="n" value="200" short_suffix="a" long_suffix="ducentésimo" />
+
+    <!--    300 -->
+    <rule precedence="3001" gender="m" plural="n" value="300" short_suffix="o" long_suffix="tricentésimo" />
+    <rule precedence="3002" gender="f" plural="n" value="300" short_suffix="a" long_suffix="tricentésima" />
+
+    <!--    400 -->
+    <rule precedence="4001" gender="m" plural="n" value="400" short_suffix="o" long_suffix="cuadringentésimo" />
+    <rule precedence="4002" gender="f" plural="n" value="400" short_suffix="a" long_suffix="cuadringentésima" />
+
+    <!--    500 -->
+    <rule precedence="5001" gender="m" plural="n" value="500" short_suffix="o" long_suffix="quingentésimo" />
+    <rule precedence="5002" gender="f" plural="n" value="500" short_suffix="a" long_suffix="quingentésima" />
+
+    <!--    600 -->
+    <rule precedence="6001" gender="m" plural="n" value="600" short_suffix="o" long_suffix="sexcentésimo" />
+    <rule precedence="6002" gender="f" plural="n" value="600" short_suffix="a" long_suffix="sexcentésima" />
+
+    <!--    700 -->
+    <rule precedence="7001" gender="m" plural="n" value="700" short_suffix="o" long_suffix="septingentésimo" />
+    <rule precedence="7002" gender="f" plural="n" value="700" short_suffix="a" long_suffix="septingentésima" />
+
+    <!--    800 -->
+    <rule precedence="8001" gender="m" plural="n" value="800" short_suffix="o" long_suffix="octingentésimo" />
+    <rule precedence="8002" gender="f" plural="n" value="800" short_suffix="a" long_suffix="octingentésima" />
+
+    <!--    900 -->
+    <rule precedence="9001" gender="m" plural="n" value="900" short_suffix="o" long_suffix="noningentésimo" />
+    <rule precedence="9002" gender="f" plural="n" value="900" short_suffix="a" long_suffix="noningentésimo" />
+
+    <!--    1000 -->
+
+    <!--    1000 -->
+    <rule precedence="10001" gender="m" plural="n" value="900" short_suffix="o" long_suffix="milésimo" />
+    <rule precedence="10002" gender="f" plural="n" value="900" short_suffix="a" long_suffix="milésima" />
+
+</rules>

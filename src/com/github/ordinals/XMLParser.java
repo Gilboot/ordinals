@@ -293,7 +293,7 @@ final class XMLParser {
      *                               cannot be parsed as an {@code int}.
      */
     private int getAttributeAsInteger(final Element element, final String attribute, final int defaultValue) {
-        final boolean has = element.hasAttribute​(attribute);
+        final boolean has = element.hasAttribute(attribute);
         return has ? getAttributeAsInteger(element, attribute) : defaultValue;
     }
 
