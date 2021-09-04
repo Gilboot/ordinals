@@ -1,6 +1,8 @@
 package com.github.ordinals;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Locale;
 
@@ -25,6 +27,18 @@ final class ResourceReader {
         }
         return inputStream;
     }
+
+
+    // Read from path
+    static InputStream readResourcePathAsStream(final String resourcePath) {
+        try {
+            File file = new File(resourcePath);
+            return new FileInputStream(file);
+        } catch (FileNotFoundException e) {
+            throw new OrdinalsException("File at path " + resourcePath + " was not found");
+        }
+    }
+
 
     /**
      * Produces resource name as a function of {@code Locale}.
