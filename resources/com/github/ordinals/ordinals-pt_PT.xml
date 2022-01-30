@@ -1,0 +1,17 @@
+<rules short_suffix_masc="o" short_suffix_fem="a" type="recursive">
+    <rule precedence="11" value="1" gender="m" plural="s" long_suffix="primeiro" />
+    <rule precedence="12" value="1" gender="f" plural="s" long_suffix="primeira" />
+    <rule precedence="13" value="1" gender="m" plural="p" long_suffix="primeiros" />
+    <rule precedence="14" value="1" gender="f" plural="p" long_suffix="primeiras" />
+
+    <rule precedence="21" value="2" gender="m" plural="s" long_suffix="segundo" />
+    <rule precedence="22" value="2" gender="f" plural="s" long_suffix="segunda" />
+    <rule precedence="23" value="2" gender="m" plural="p" long_suffix="segundos" />
+    <rule precedence="24" value="2" gender="f" plural="p" long_suffix="segundas" />
+
+    <rule precedence="31" value="3" gender="m" plural="s" long_suffix="segundo" />
+    <rule precedence="32" value="3" gender="f" plural="s" long_suffix="segunda" />
+    <rule precedence="33" value="3" gender="m" plural="p" long_suffix="segundos" />
+    <rule precedence="34" value="3" gender="f" plural="p" long_suffix="segundas" />
+
+</rules>

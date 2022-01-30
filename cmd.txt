@@ -1,0 +1,8 @@
+// See remote branches
+git branch -r 
+
+// Delete remote branches from local repositories
+git branch -r -d origin/issue/readme
+
+// Get a good graphical listing of logs for all branches 
+git log --all --oneline --graph
