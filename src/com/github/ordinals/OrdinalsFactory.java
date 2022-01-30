@@ -12,6 +12,9 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
+ * Note: This should be called OrdinalsFactory. 
+ * It is not an abstract factory because it does not have a set of methods where each method creates and returns an object.
+ * It is also not a factory method because it is a class and not a method.
  * @see https://stackoverflow.com/q/4011075/10030693
  * @see https://en.m.wikipedia.org/wiki/Ordinal_indicator
  */
