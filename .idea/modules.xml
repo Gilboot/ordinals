@@ -2,6 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/d.iml" filepath="$PROJECT_DIR$/.idea/modules/d.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/d.main.iml" filepath="$PROJECT_DIR$/.idea/modules/d.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/d.test.iml" filepath="$PROJECT_DIR$/.idea/modules/d.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/ordinals.iml" filepath="$PROJECT_DIR$/ordinals.iml" />
     </modules>
   </component>
